@@ -8,15 +8,15 @@
 
 
 //LineController
-void LineController::AddToPath(Path* paths)
+void LineController::AddToPath(Path* paths) // добавление в путь (Тут пока плохо, утечка памяти)
 {
 	
 	LineSegment* Line = new LineSegment(m_Start, m_End);
 	paths->Add(Line,m_End);
 }
 
-LineController::LineController(CClientDC* canvas,Point Start, Point End) : m_Start(Start), m_End(End) {  }
-LineController::LineController(CClientDC* canvas,Point Start, int nLength, double dblAngle)
+LineController::LineController(Point Start, Point End) : m_Start(Start), m_End(End) {  } // конструктор длины по 2 точкам
+LineController::LineController(Point Start, int nLength, double dblAngle) //конструктор по начанльной точке углу и длине
 {
 	m_Start = Start;
 	m_End.m_x = Start.m_x + cos(dblAngle * M_PI / 180) * nLength;
@@ -26,18 +26,21 @@ LineController::LineController(CClientDC* canvas,Point Start, int nLength, doubl
 
 
 //ArcController
-void ArcController::AddToPath(Path* paths)
+void ArcController::AddToPath(Path* paths) // добавление в путь (Тут пока плохо, утечка памяти)
 {
 	CArc* arc = new CArc(m_Start, m_End, m_Center,m_clock);
 	paths->Add(arc, m_End);
 
 }
 
-ArcController::ArcController(CClientDC* canvas, Point Start, Point End, Point Middle)
+ArcController::ArcController(Point Start, Point End, Point Middle) // Конструктор по 3 точкам 
 {
 	m_Start = Start;
-	m_End = End;
+	m_End = End; 
+	//вычисление центра окружности
 	m_Center = calc3p(Start, End, Middle);
+
+	//получение направления дуги
 	if ((m_Start.m_x > Middle.m_x) && (Middle.m_x > m_End.m_x))
 		if (Middle.m_y < m_Start.m_y)
 			if (Middle.m_y > m_Center.m_y)
@@ -68,21 +71,20 @@ ArcController::ArcController(CClientDC* canvas, Point Start, Point End, Point Mi
 			m_clock = false;
 		else
 			m_clock = true;
-	
-	
 }
-ArcController::ArcController(CClientDC* canvas, Point Start, Point End, double dblRadius, bool clock)
+ArcController::ArcController( Point Start, Point End, double dblRadius, bool clock) // конструктор по 2 точкам и ридиусу
 {
 	m_Start = Start;
 	m_End = End;
 	m_clock = !clock;
 	double d = sqrt(pow(m_Start.m_x - m_End.m_x, 2) + pow(m_Start.m_y - m_End.m_y, 2));
 	double h = sqrt(dblRadius * dblRadius - (d / 2) * (d / 2));
+	//получение центра окружности в зависимости от направления дуги, так как можно построить две дуги между двумя точками с заданным радиусом
 	if (clock)
 	{
 		m_Center.m_x = m_Start.m_x + (m_End.m_x - m_Start.m_x) / 2 + h * (m_End.m_y - m_Start.m_y) / d;
 		m_Center.m_y = m_Start.m_y + (m_End.m_y - m_Start.m_y) / 2 - h * (m_End.m_x - m_Start.m_x) / d;
-		//std::swap(m_Start, m_End);
+		
 	}
 	else
 	{
@@ -92,7 +94,7 @@ ArcController::ArcController(CClientDC* canvas, Point Start, Point End, double d
 	
 	
 }
-
+// вычисления центра окружности для 3 точек
 Point ArcController::calc3p(Point s, Point e, Point m)
 {
 	float k1 = (s.m_x + m.m_x) / 2;

@@ -77,7 +77,7 @@ void CBuildPathsView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	
+	//вызов в цикле отрисовщика
 	for (int i = 0; i < pDoc->Paths.size(); i++)
 		pDoc->Paths[i].Draw(&aDC);
 
@@ -122,7 +122,9 @@ CBuildPathsDoc* CBuildPathsView::GetDocument() const // встроена нео�
 
 bool CBuildPathsView::CheckPos(CPoint* point )
 {
+	// получение документа
 	CBuildPathsDoc* pDoc = GetDocument();
+	// проверка на начало в области 10 пикселей
 	if ((abs(point->x - 5) < 10) & (abs(point->y - 5) < 10))
 	{
 		Path path(EndOfDoc);
@@ -131,7 +133,7 @@ bool CBuildPathsView::CheckPos(CPoint* point )
 		return true;
 	}
 	else 
-	
+	//проверка на концы путей в области 10 пикселей и на не закончен ли данный путь
 		for (int i = 0; i < pDoc->Paths.size(); i++)
 		{
 			
@@ -148,7 +150,7 @@ bool CBuildPathsView::CheckPos(CPoint* point )
 }
 
 
-
+// получение индекса в контейнере путей по концу пути
 int CBuildPathsView::GetIndex(Point x)
 {
 	CBuildPathsDoc* pDoc = GetDocument();
@@ -161,7 +163,7 @@ int CBuildPathsView::GetIndex(Point x)
 	return -1;
 }
 
-
+// проверка на конец пути, если попали в область конца пути, то инициализурем точку координатами конца документа
 Point CBuildPathsView::EndPoints(CPoint point)
 {
 	
@@ -182,36 +184,40 @@ Point CBuildPathsView::EndPoints(CPoint point)
 Point s, e,m;
 
 bool bs = false, bm = false;
-
+// нажатие на левую кнопку мыши
 void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
-{
+{	
+	// получение области рисования
 	CClientDC aDC(this);
 	CBuildPathsDoc* pDoc = GetDocument();
-	
+	// если не выбрана начальная точка и не попадает в начало или конец какого-то пути, то оповещение
 	if (!bs)
 		if (!CheckPos(&point))
 		{
 			AfxMessageBox(_T("Начинать или с конца пути или от начала"));
 			return;
 		}
-	
+	//свитч по выбору фигур
 	switch (ElemType)
 	{
-	case TypeElem::line2p:
+	case TypeElem::line2p: // линия по 2 точкам
 	{
-		if (bs)
+		if (bs) // если стартовая точка есть
 		{
+			//инициализурем конечную точку
 			e = EndPoints(point);
-
-			LineController line(&aDC,s, e);
+			//вызов контроллера
+			LineController line(s, e);
+			//получение индекса пути
 			int index = GetIndex(s);
-		
+			//Добавление в контейнер путей
 			line.AddToPath(&pDoc->Paths[index]);
 			
 			bs = !bs;
 		}
 		else
 		{
+			// инициализурем стартовую точку
 			s.m_x = point.x;
 			s.m_y = point.y;
 			bs = !bs;
@@ -219,67 +225,72 @@ void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 		
 	}
 	break;
-	case TypeElem::linela:
+	case TypeElem::linela: // линия по точке длине и углу
 	{
-		int length = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_LENGTH));
-		int angle = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_ANGLE));
-		if (length == 0)
+		int length = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_LENGTH)); // получение длины
+		int angle = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_ANGLE)); //получение угла
+		if (length == 0) // если длина равно 0 - оповестить
 		{
 			AfxMessageBox(_T("Длина не может равняться 0"));
 				return;
 		}
 		else
 		{
+			//инициализуруем начальную точку
 			s.m_x = point.x;
 			s.m_y = point.y;
-			LineController line(&aDC, s, length, -angle);
+			//вызов контроллера
+			LineController line( s, length, -angle);
+			// получение индекса
 			int index = GetIndex(s);
+			//Добавление в контейнер путей
 			line.AddToPath(&pDoc->Paths[index]);
 			
 		}
 		
 	}
 	break;
-	case TypeElem::arc3p:
+	case TypeElem::arc3p: // дуга по 3 точкам
 	{
-		if (bs & bm)
+		if (bs & bm) // если есть начальная и средняя точка
 		{
-			e = EndPoints(point);
-			ArcController arc(&aDC, s, e, m);
-			int index = GetIndex(s);
-			arc.AddToPath(&pDoc->Paths[index]);
+			e = EndPoints(point); // инициализируем конечную точку
+			ArcController arc( s, e, m); //вызов контроллера
+			int index = GetIndex(s); // получение индекса пути
+			arc.AddToPath(&pDoc->Paths[index]); // добавление в контейнер путей
 			bs = bm = false;
 			
 		}
 		else if (bs)
-		{
+		{ //инициализация средней точки
 			m.m_x = point.x;
 			m.m_y = point.y;
 			bm = !bm;
 		}
 		else
 		{
+			// иницализация начальной точки
 			s.m_x = point.x;
 			s.m_y = point.y;
 			bs = !bs;
 		}
 
 	}
-	break;
-	case TypeElem::arc2p:
+	break; 
+	case TypeElem::arc2p: // дуга по 2 точкам
 	{
 		if (bs)
 		{
-			e = EndPoints(point);;
-			bool clock = CMFCToolBarComboBoxButton::GetCurSelAll(IDS_COMBO);
-			int rad = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_RAD));
-			if (rad == 0)
+			e = EndPoints(point); // инициализируем конечную точку
+			bool clock = CMFCToolBarComboBoxButton::GetCurSelAll(IDS_COMBO); // получаем направление построения
+			int rad = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_RAD)); //получаем радиус
+			if (rad == 0) // проверка на радиус
 			{
 				bs = !bs;
 				AfxMessageBox(_T("Радиус не может равняться 0"));
 				return;
 			}
-			double l = sqrt(pow(e.m_x - s.m_x, 2) + pow(e.m_y - s.m_y, 2));
+			double l = sqrt(pow(e.m_x - s.m_x, 2) + pow(e.m_y - s.m_y, 2)); // проверка на существование окружности с заданным радиусом
 			if (rad < l / 2)
 			{
 				bs = !bs;
@@ -287,28 +298,29 @@ void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 				return;
 			}
 			
-			ArcController arc(&aDC, s, e, rad, clock);
-			int index = GetIndex(s);
-			arc.AddToPath(&pDoc->Paths[index]);
+			ArcController arc( s, e, rad, clock); //вызов контроллера
+			int index = GetIndex(s); // получение индекса
+			arc.AddToPath(&pDoc->Paths[index]); // добавление в путь
 			bs = !bs;
 		}
 		else
 		{
+			//инициализация начальной точки
 			s.m_x = point.x;
 			s.m_y = point.y;
 			bs = !bs;
 		}
 	}
 	}
-	OnDraw(&aDC);
+	OnDraw(&aDC); //вызов перерисовщик
 	CView::OnLButtonDown(nFlags, point);
 }
 
 
-
+// отображение текущих координат
 void CBuildPathsView::OnMouseMove(UINT nFlags, CPoint point)
  {
-	CString pos;
+	CString pos; 
 	pos.Format(_T("%d"), point.x);
 	CMFCToolBarEditBoxButton::SetContentsAll(IDS_X, pos);
 	pos.Format(_T("%d"), point.y);

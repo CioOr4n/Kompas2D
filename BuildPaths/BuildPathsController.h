@@ -19,8 +19,8 @@ class LineController : public iController
 private:
 	Point m_Start, m_End;
 public:
-	LineController(CClientDC* canvas,Point Start, Point End);
-	LineController(CClientDC* canvas,Point Start, int nLength, double dblAngle);
+	LineController(Point Start, Point End);
+	LineController(Point Start, int nLength, double dblAngle);
 	virtual void AddToPath(Path* paths) override;
 };
 
@@ -32,8 +32,8 @@ private:
 private:
 	Point calc3p(Point s, Point e, Point m);
 public:
-	ArcController(CClientDC* canvas,Point Start, Point End, Point Middle);
-	ArcController(CClientDC* canvas,Point Start, Point End, double dblRadius, bool clock);
+	ArcController(Point Start, Point End, Point Middle);
+	ArcController(Point Start, Point End, double dblRadius, bool clock);
 	virtual void AddToPath(Path* paths) override;
 
 
