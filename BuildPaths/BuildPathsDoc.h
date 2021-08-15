@@ -3,6 +3,7 @@
 //
 #include <vector>
 #include "Figures.h"
+#include "Path.h"
 
 #pragma once
 
@@ -15,7 +16,6 @@ protected: // создать только из сериализации
 
 // Атрибуты
 public:
-	// построенные пути
 	std::vector<Path> Paths;
 // Операции	
 public:

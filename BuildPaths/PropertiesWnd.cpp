@@ -164,7 +164,7 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
-	;
+	
 	m_wndPropList.EnableHeaderCtrl(FALSE);
 	m_wndPropList.EnableDescriptionArea();
 	m_wndPropList.SetVSDotNetLook();
@@ -175,75 +175,10 @@ void CPropertiesWnd::InitPropList()
 	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("X"), (variant_t)0, _T("Координата X")));
 	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Y"), (variant_t)0, _T("Координата Y")));
 	
-	//CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Граница"), _T("Диалоговое окно"), _T("Одно из значений: \"Нет\", \"Тонкая\", \"Изменяемая\" или \"Диалоговое окно\""));
-	//pProp->AddOption(_T("Нет"));
-	//pProp->AddOption(_T("Тонкая"));
-	//pProp->AddOption(_T("Изменяемая"));
-	//pProp->AddOption(_T("Диалоговое окно"));
-	//pProp->AllowEdit(FALSE);
-
-	//pGroup1->AddSubItem(pProp);
-	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Заголовок"), (_variant_t) _T("О программе"), _T("Указывает текст, который будет отображаться в строке заголовка окна")));
+	
 
 	m_wndPropList.AddProperty(pGroup1);
-	//CBuildPathsView::x = pGroup1->GetSubItem(0);
-	//CBuildPathsView::y = pGroup1->GetSubItem(1);
-	//CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Размер окна"), 0, TRUE);
 
-	//pProp = new CMFCPropertyGridProperty(_T("Высота"), (_variant_t) 250l, _T("Указывает высоту окна"));
-	//pProp->EnableSpinControl(TRUE, 50, 300);
-	//pSize->AddSubItem(pProp);
-
-	//pProp = new CMFCPropertyGridProperty( _T("Ширина"), (_variant_t) 150l, _T("Указывает ширину окна"));
-	//pProp->EnableSpinControl(TRUE, 50, 200);
-	//pSize->AddSubItem(pProp);
-
-	//m_wndPropList.AddProperty(pSize);
-
-	//CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Шрифт"));
-
-	//LOGFONT lf;
-	//CFont* font = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
-	//font->GetLogFont(&lf);
-
-	//_tcscpy_s(lf.lfFaceName, _T("Arial"));
-
-	//pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Шрифт"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Указывает шрифт окна по умолчанию")));
-	//pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Использование системного шрифта"), (_variant_t) true, _T("Указывает, что в окне используется шрифт MS Shell Dlg")));
-
-	//m_wndPropList.AddProperty(pGroup2);
-
-	//CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Разное"));
-	//pProp = new CMFCPropertyGridProperty(_T("(Имя)"), _T("Приложение"));
-	//pProp->Enable(FALSE);
-	//pGroup3->AddSubItem(pProp);
-
-	//CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Цвет окна"), RGB(210, 192, 254), nullptr, _T("Указывает цвет окна по умолчанию"));
-	//pColorProp->EnableOtherButton(_T("Другое..."));
-	//pColorProp->EnableAutomaticButton(_T("По умолчанию"), ::GetSysColor(COLOR_3DFACE));
-	//pGroup3->AddSubItem(pColorProp);
-
-	//static const TCHAR szFilter[] = _T("Файлы значков(*.ico)|*.ico|Все файлы(*.*)|*.*||");
-	//pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Значок"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("Указывает значок окна")));
-
-	//pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Папка"), _T("c:\\")));
-
-	//m_wndPropList.AddProperty(pGroup3);
-
-	//CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Иерархия"));
-
-	//CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("Первый подуровень"));
-	//pGroup4->AddSubItem(pGroup41);
-
-	//CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("Второй подуровень"));
-	//pGroup41->AddSubItem(pGroup411);
-
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Элемент 1"), (_variant_t) _T("Значение 1"), _T("Это описание")));
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Элемент 2"), (_variant_t) _T("Значение 2"), _T("Это описание")));
-	//pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Элемент 3"), (_variant_t) _T("Значение 3"), _T("Это описание")));
-
-	//pGroup4->Expand(FALSE);
-	//m_wndPropList.AddProperty(pGroup4);
 
 }
 

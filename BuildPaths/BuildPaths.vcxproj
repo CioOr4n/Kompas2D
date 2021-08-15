@@ -183,12 +183,17 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArcController.h" />
     <ClInclude Include="BuildPaths.h" />
-    <ClInclude Include="BuildPathsController.h" />
+    <ClInclude Include="IController.h" />
     <ClInclude Include="BuildPathsDoc.h" />
     <ClInclude Include="BuildPathsView.h" />
+    <ClInclude Include="CArc.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Figures.h" />
+    <ClInclude Include="LineController.h" />
+    <ClInclude Include="Path.h" />
+    <ClInclude Include="LineSegment.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -197,11 +202,16 @@
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ArcController.cpp" />
     <ClCompile Include="BuildPaths.cpp" />
-    <ClCompile Include="BuildPathsController.cpp" />
+    <ClCompile Include="IController.cpp" />
     <ClCompile Include="BuildPathsDoc.cpp" />
     <ClCompile Include="BuildPathsView.cpp" />
+    <ClCompile Include="CArc.cpp" />
+    <ClCompile Include="LineController.cpp" />
+    <ClCompile Include="LineSegment.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

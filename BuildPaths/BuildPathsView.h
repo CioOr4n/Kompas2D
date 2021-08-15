@@ -4,7 +4,9 @@
 
 #pragma once
 #include "Figures.h"
-#include "BuildPathsController.h"
+#include "IController.h"
+#include "LineController.h"
+#include "ArcController.h"
 
 class CBuildPathsView : public CView
 {
@@ -48,9 +50,10 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 private:
-	TypeElem ElemType;
+	TypeElem ElemType ;
 	Type Elem;
 	Point EndOfDoc;
+	std::unique_ptr<Controller> Controller;
 public:
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -66,6 +69,7 @@ public:
 	afx_msg void OnUpdateArc3p(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateArc2p(CCmdUI* pCmdUI);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void EnterData();
 };
 
 #ifndef _DEBUG  // версия отладки в BuildPathsView.cpp

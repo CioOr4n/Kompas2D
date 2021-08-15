@@ -152,7 +152,7 @@ void CBuildPathsDoc::OnFileSave()
 		return;
 	}
 	// создание экземпляра диалогоа
-	CFileDialog fd(false,L"xml", L"Построение путей",NULL,L"XML Files (*.xml)");
+	CFileDialog fd(false,L"xml", L"Построение путей",NULL,L"XML Files (*.xml)|*.xml||");
 	
 	//вызов диалога и получение путей
 	if (fd.DoModal() == IDOK)
@@ -169,9 +169,11 @@ void CBuildPathsDoc::OnFileSave()
 	//создание элемента документа
 	XMLElement* elem = doc.NewElement("Document");
 	doc.InsertEndChild(elem);
+	XMLElement* docsize = doc.NewElement("Windowsize");
+	elem->InsertEndChild(docsize);
 	// создание стартовой точки документа
 	XMLElement* StartPointDoc = doc.NewElement("StartPoint");
-	elem->InsertFirstChild(StartPointDoc);
+	docsize->InsertFirstChild(StartPointDoc);
 	//создание точки Startx
 	XMLElement* xs = doc.NewElement("x");
 	xs->SetText(0);
@@ -182,14 +184,15 @@ void CBuildPathsDoc::OnFileSave()
 	StartPointDoc->InsertEndChild(ys);
 	// создание конечной точки документа
 	XMLElement* FinishPointDoc = doc.NewElement("FinishPoint");
-	elem->InsertEndChild(FinishPointDoc);
+	docsize->InsertEndChild(FinishPointDoc);
 	//создание точки Finishx
 	XMLElement* xf = doc.NewElement("x");
-	xf->SetText(Paths[0].m_EndDoc.m_x);
+	Point End = Paths[0].GetEndDoc();
+	xf->SetText(End.m_x);
 	FinishPointDoc->InsertEndChild(xf);
 	//создание точки Finishy
 	XMLElement* yf = doc.NewElement("y");
-	yf->SetText(Paths[0].m_EndDoc.m_y);
+	yf->SetText(End.m_y);
 	FinishPointDoc->InsertEndChild(yf);
 	// Создание в цикле количество путей и вызов метода преобразования
 	for (int i = 0; i < Paths.size(); i++)
@@ -202,5 +205,6 @@ void CBuildPathsDoc::OnFileSave()
 	
 	//сохранения файла
 	doc.SaveFile(FilePath);
-	
+	doc.Clear();
+	doc.~XMLDocument();
 }

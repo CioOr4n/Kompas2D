@@ -45,10 +45,25 @@
     <ClInclude Include="Figures.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="BuildPathsController.h">
+    <ClInclude Include="IController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="tinyxml2.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="LineSegment.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="CArc.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="LineController.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ArcController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,10 +89,25 @@
     <ClCompile Include="Figures.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="BuildPathsController.cpp">
+    <ClCompile Include="IController.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="tinyxml2.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="LineSegment.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="CArc.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Path.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="LineController.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ArcController.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

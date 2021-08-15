@@ -68,15 +68,16 @@
 #define IDS_RAD                         32794
 #define ID_BUTTON32795                  32795
 #define IDS_LENGTH                      32795
-#define ID_BUTTON32797                  32797
 #define IDS_ANGLE                       32798
+#define ID_BUTTON32799                  32799
+#define IDS_ENTER                       32800
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        314
-#define _APS_NEXT_COMMAND_VALUE         32799
+#define _APS_NEXT_COMMAND_VALUE         32801
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

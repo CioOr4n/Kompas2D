@@ -33,6 +33,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, OnToolbarReset)
 	ON_COMMAND(IDS_COMBO, &CMainFrame::OnClickComboBox)
 	ON_CBN_SELCHANGE(IDS_COMBO, &CMainFrame::OnSelChangeClick)
+
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -420,12 +421,13 @@ LRESULT CMainFrame::OnToolbarReset(WPARAM wp, LPARAM lp)
 	m_wndEdit3 = new CMFCToolBarEditBoxButton(IDS_RAD, GetCmdMgr()->GetCmdImage(IDS_RAD, FALSE), 3UL, 60);
 	m_wndEdit4 = new CMFCToolBarEditBoxButton(IDS_LENGTH, GetCmdMgr()->GetCmdImage(IDS_LENGTH, FALSE), 3UL, 60);
 	m_wndEdit5 = new CMFCToolBarEditBoxButton(IDS_ANGLE, GetCmdMgr()->GetCmdImage(IDS_ANGLE, FALSE), 3UL, 60);
-	
-	m_wndEdit1->EnableWindow(true);
-	m_wndComboBox->EnableWindow(true);
+
+
+
 	m_wndComboBox->SetCenterVert();
 	m_wndComboBox->SetDropDownHeight(25);
-	m_wndComboBox->SetFlatMode();
+
+	m_wndComboBox->EnableWindow(false);
 	m_wndComboBox->AddItem(_T("По часовой"));
 	m_wndComboBox->AddItem(_T("Против часовой"));
 	m_wndComboBox->SelectItem(0);
@@ -435,6 +437,8 @@ LRESULT CMainFrame::OnToolbarReset(WPARAM wp, LPARAM lp)
 	m_wndToolBar.ReplaceButton(IDS_RAD, *m_wndEdit3);
 	m_wndToolBar.ReplaceButton(IDS_LENGTH, *m_wndEdit4);
 	m_wndToolBar.ReplaceButton(IDS_ANGLE, *m_wndEdit5);
+	m_wndEdit1->EnableWindow(false);
+ 
 	
 	return 0;
 }
