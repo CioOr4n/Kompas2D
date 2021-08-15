@@ -71,7 +71,7 @@ BOOL CBuildPathsView::PreCreateWindow(CREATESTRUCT& cs)
 void CBuildPathsView::OnDraw(CDC* pDC)
 {
 	
-	CClientDC aDC(this);
+
 
 	CBuildPathsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -294,8 +294,6 @@ void CBuildPathsView::EnterData()
 	CClientDC aDC(this);
 	OnDraw(&aDC);
 }
-
-
 
 
 
