@@ -151,6 +151,19 @@ void CBuildPathsDoc::OnFileSave()
 		AfxMessageBox(_T("Нечего сохранять"));
 		return;
 	}
+	else
+		for (int i = 0; i < Paths.size(); i++)
+		{
+			if (Paths[i].IsEnd())
+				continue;
+			else
+			{
+				int result = AfxMessageBox(_T("Есть не законченные пути.\nХотите продолжить?"), MB_OKCANCEL);
+				if (result == IDCANCEL)
+					return;
+				else break;
+			}
+		}
 	// создание экземпляра диалогоа
 	CFileDialog fd(false,L"xml", L"Построение путей",NULL,L"XML Files (*.xml)|*.xml||");
 	
@@ -159,6 +172,7 @@ void CBuildPathsDoc::OnFileSave()
 	{
 		File = fd.GetPathName();
 	}
+	else return;
 	//Приведение к CStringA
 	CStringA FilePath(File);
 	// создание экземпляра документа
@@ -185,6 +199,12 @@ void CBuildPathsDoc::OnFileSave()
 	// создание конечной точки документа
 	XMLElement* FinishPointDoc = doc.NewElement("FinishPoint");
 	docsize->InsertEndChild(FinishPointDoc);
+	POSITION p = this->GetFirstViewPosition();
+	CRect rect;
+	CDC* pp = this->GetNextView(p)->GetWindowDC();
+	CWnd* ppp = pp->GetWindow();
+
+	
 	//создание точки Finishx
 	XMLElement* xf = doc.NewElement("x");
 	Point End = Paths[0].GetEndDoc();

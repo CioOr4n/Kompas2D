@@ -17,7 +17,7 @@ struct Point // координаты точек в структуре
 class iFigure // интерфейс
 {
 public:
-	const virtual void DrawFigure(CClientDC* canvas) = 0; // отрисовка фигуры
+	const virtual void DrawFigure(std::shared_ptr < CClientDC>) = 0; // отрисовка фигуры
 	const virtual Type FigureType() = 0; // тип фигуры
 	const virtual void ToXml(XMLElement* path, tinyxml2::XMLDocument* doc) = 0;
 	virtual ~iFigure() {};

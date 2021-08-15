@@ -2,7 +2,7 @@
 #include "CArc.h"
 
 CArc::CArc(Point Start, Point End, Point Center, bool clock) : m_start(Start), m_end(End), m_center(Center), m_bClock(clock) {}
-const void CArc::DrawFigure(CClientDC* canvas)
+const void CArc::DrawFigure(std::shared_ptr < CClientDC> canvas)
 {
 
 	double start_angle = atan2(1. * (m_center.m_y - m_start.m_y), (m_start.m_x - m_center.m_x));

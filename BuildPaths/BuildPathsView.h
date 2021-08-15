@@ -7,6 +7,9 @@
 #include "IController.h"
 #include "LineController.h"
 #include "ArcController.h"
+#include "iDrawer.h"
+#include <memory>
+#include "GDIDrawer.h"
 
 class CBuildPathsView : public CView
 {
@@ -18,7 +21,7 @@ protected: // создать только из сериализации
 public:
 	
 	CBuildPathsDoc* GetDocument() const;
-	
+
 
 // Операции
 public:
@@ -36,9 +39,6 @@ public:
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
-	bool CheckPos(CPoint* point);
-	int GetIndex(Point x);
-	Point EndPoints(CPoint point);
 #endif
 
 protected:
@@ -54,6 +54,7 @@ private:
 	Type Elem;
 	Point EndOfDoc;
 	std::unique_ptr<Controller> Controller;
+	std::unique_ptr<iDrawer> Drawer;
 public:
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
@@ -70,6 +71,7 @@ public:
 	afx_msg void OnUpdateArc2p(CCmdUI* pCmdUI);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void EnterData();
+	afx_msg void OnGdi();
 };
 
 #ifndef _DEBUG  // версия отладки в BuildPathsView.cpp

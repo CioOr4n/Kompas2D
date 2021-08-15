@@ -14,7 +14,7 @@ public:
 	void Add(std::unique_ptr<iFigure> path, Point end); // добавление фигуры
 	const Point GetEndPath(); // получение конца пути
 	const Point GetEndDoc();
-	const void Draw(CClientDC* canvas); // отрисовка всего пути
+	const void Draw(std::shared_ptr <CClientDC>); // отрисовка всего пути
 	const bool IsEnd(); // проверка закончен ли путь
 	const void ToXML(XMLElement* path, tinyxml2::XMLDocument* doc); // парсер в xml  
 

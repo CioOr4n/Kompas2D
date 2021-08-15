@@ -16,6 +16,7 @@
 #include "PropertiesWnd.h"
 
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -43,6 +44,7 @@ BEGIN_MESSAGE_MAP(CBuildPathsView, CView)
 	ON_UPDATE_COMMAND_UI(ID_ARC2P, &CBuildPathsView::OnUpdateArc2p)
 	ON_COMMAND(IDS_ENTER, &CBuildPathsView::EnterData)
 
+	ON_COMMAND(ID_GDI, &CBuildPathsView::OnGdi)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение CBuildPathsView
@@ -70,15 +72,15 @@ void CBuildPathsView::OnDraw(CDC* pDC)
 {
 	
 	CClientDC aDC(this);
-	
+
 	CBuildPathsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-
-;	//вызов в цикле отрисовщика
+	
+	//вызов в цикле отрисовщика
 	for (int i = 0; i < pDoc->Paths.size(); i++)
-		pDoc->Paths[i].Draw(&aDC);
+		pDoc->Paths[i].Draw((Drawer->GetScene()));
 
 }
 
@@ -295,3 +297,9 @@ void CBuildPathsView::EnterData()
 
 
 
+
+
+void CBuildPathsView::OnGdi()
+{
+	Drawer = std::make_unique<GDIDrawer>(std::make_shared<CClientDC>(this));
+}

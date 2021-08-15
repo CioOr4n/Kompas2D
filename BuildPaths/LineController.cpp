@@ -113,6 +113,7 @@ bool LineController::CheckStart()
 		POSITION sd = m_pDoc->GetFirstViewPosition();
 		m_pDoc->GetNextView(sd)->GetClientRect(&rc);
 		Point temp;
+		
 		temp.m_x = rc.right - 1;
 		temp.m_y = rc.bottom - 1;
 		Path path(temp);

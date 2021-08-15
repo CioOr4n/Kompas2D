@@ -1,11 +1,12 @@
 ﻿
 // BuildPathsDoc.h: интерфейс класса CBuildPathsDoc 
 //
+#pragma once
 #include <vector>
 #include "Figures.h"
 #include "Path.h"
 
-#pragma once
+
 
 
 class CBuildPathsDoc : public CDocument
@@ -17,6 +18,8 @@ protected: // создать только из сериализации
 // Атрибуты
 public:
 	std::vector<Path> Paths;
+	
+	
 // Операции	
 public:
 

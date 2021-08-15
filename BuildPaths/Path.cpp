@@ -18,7 +18,7 @@ const Point Path::GetEndDoc()
 	return m_EndDoc;
 }
 
-const void Path::Draw(CClientDC* canvas) // отрисовка всего пути
+const void Path::Draw(std::shared_ptr<CClientDC> canvas) // отрисовка всего пути
 {
 	for (int i = 0; i < m_path.size(); i++)
 		m_path[i]->DrawFigure(canvas);

@@ -66,6 +66,12 @@
     <ClInclude Include="ArcController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="iDrawer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="GDIDrawer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BuildPaths.cpp">
@@ -108,6 +114,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="ArcController.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="GDIDrawer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

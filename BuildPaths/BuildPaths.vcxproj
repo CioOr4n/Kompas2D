@@ -185,12 +185,14 @@
   <ItemGroup>
     <ClInclude Include="ArcController.h" />
     <ClInclude Include="BuildPaths.h" />
+    <ClInclude Include="GDIDrawer.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="BuildPathsDoc.h" />
     <ClInclude Include="BuildPathsView.h" />
     <ClInclude Include="CArc.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Figures.h" />
+    <ClInclude Include="iDrawer.h" />
     <ClInclude Include="LineController.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="LineSegment.h" />
@@ -204,6 +206,7 @@
   <ItemGroup>
     <ClCompile Include="ArcController.cpp" />
     <ClCompile Include="BuildPaths.cpp" />
+    <ClCompile Include="GDIDrawer.cpp" />
     <ClCompile Include="IController.cpp" />
     <ClCompile Include="BuildPathsDoc.cpp" />
     <ClCompile Include="BuildPathsView.cpp" />

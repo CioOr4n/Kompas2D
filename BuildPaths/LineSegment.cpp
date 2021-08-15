@@ -3,7 +3,7 @@
 LineSegment::LineSegment(Point Start, Point End) : m_start(Start), m_end(End) {};
 
 
-const void LineSegment::DrawFigure(CClientDC* canvas)
+const void LineSegment::DrawFigure(std::shared_ptr <CClientDC> canvas)
 {
 	canvas->MoveTo(m_start.m_x, m_start.m_y);
 	canvas->LineTo(m_end.m_x, m_end.m_y);
