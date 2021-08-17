@@ -117,9 +117,6 @@ bool LineController::CheckStart()
 		//проверка на концы путей в области area пикселей и на не закончен ли данный путь
 		for (auto& path: listOfPath)
 		{	
-			if (path.IsEnd())
-				continue;
-
 			Point temp = path.GetEndPath();
 			if ((abs(m_start.m_x - temp.m_x) < area) & (abs(m_start.m_y - temp.m_y) < area) )
 			{

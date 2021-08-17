@@ -5,11 +5,11 @@
 class GDIDrawer :public iDrawer
 {
 private:
-	CClientDC* m_dc;
+	CDC* m_dc;
 public:
 	virtual void DrawLine(Point, Point) override;
 	virtual void DrawArc(Point, Point, Point) override;
-	GDIDrawer(CClientDC* dc) 
+	GDIDrawer(CDC* dc) 
 	{
 		m_dc = dc;
 	}

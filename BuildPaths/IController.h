@@ -2,8 +2,11 @@
 #define _USE_MATH_DEFINES
 
 #include <corecrt_math_defines.h>
+
 #include "Figures.h"
 #include "BuildPathsDoc.h"
+
+
 const int area = 10;
 class iController
 {

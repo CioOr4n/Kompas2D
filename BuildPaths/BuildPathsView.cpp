@@ -71,8 +71,8 @@ BOOL CBuildPathsView::PreCreateWindow(CREATESTRUCT& cs)
 void CBuildPathsView::OnDraw(CDC* pDC)
 {
 	
-	CClientDC aDC(this);
-	m_drawer = std::make_unique<GDIDrawer>(&aDC);
+	m_drawer = std::make_unique<GDIDrawer>(pDC);
+	
 	CBuildPathsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
@@ -298,5 +298,4 @@ void CBuildPathsView::EnterData()
 void CBuildPathsView::OnGdi()
 {
 
-	
 }
