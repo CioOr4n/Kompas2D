@@ -172,19 +172,18 @@ void CBuildPathsDoc::OnFileSave()
 		AfxMessageBox(_T("Нечего сохранять"));
 		return;
 	}
-	else 
-		for (auto& path : paths)
+	else
+	{
+		if (GetPaths().size() != 0)
 		{
-			if (path.IsEnd())
-				continue;
-			else
-			{
-				int result = AfxMessageBox(_T("Есть не законченные пути.\nХотите продолжить?"), MB_OKCANCEL);
-				if (result == IDCANCEL)
-					return;
-				else break;
-			}
+			int result = AfxMessageBox(_T("Есть не законченные пути.Сохранятся только законченные.\nХотите продолжить?"), MB_OKCANCEL);
+			if (result == IDCANCEL)
+				return;
 		}
+			
+	
+	}
+	
 	// создание экземпляра диалогоа
 	CFileDialog fd(false,L"xml", L"Построение путей",NULL,L"XML Files (*.xml)|*.xml||");
 	
