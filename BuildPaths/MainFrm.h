@@ -59,12 +59,14 @@ protected:
 	afx_msg LRESULT OnToolbarReset(WPARAM, LPARAM);
 	afx_msg void OnSelChangeClick();
 	afx_msg void OnClickComboBox();
-	afx_msg void OnChangeLength();
+	
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 	BOOL CreateCaptionBar();
+public:
+
 };
 
 

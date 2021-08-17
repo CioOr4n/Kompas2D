@@ -2,10 +2,11 @@
 // BuildPathsDoc.h: интерфейс класса CBuildPathsDoc 
 //
 #pragma once
+#include <list>
 #include <vector>
 #include "Figures.h"
 #include "Path.h"
-
+#include "SortPath.h"
 
 
 
@@ -14,10 +15,13 @@ class CBuildPathsDoc : public CDocument
 protected: // создать только из сериализации
 	CBuildPathsDoc() noexcept;
 	DECLARE_DYNCREATE(CBuildPathsDoc)
+private:
+	Point m_endOfDoc;
+	SortPath m_paths;
 
 // Атрибуты
-public:
-	std::vector<Path> Paths;
+
+	
 	
 	
 // Операции	
@@ -25,7 +29,11 @@ public:
 
 // Переопределение
 public:
+	
 	virtual BOOL OnNewDocument();
+	Point GetEndDoc();
+	std::list<Path>& GetPaths();
+	std::list<Path>& GetEndPaths();
 	virtual void Serialize(CArchive& ar);
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();

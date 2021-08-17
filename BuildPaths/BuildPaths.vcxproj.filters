@@ -66,10 +66,16 @@
     <ClInclude Include="ArcController.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Coord.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="iDrawer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="GDIDrawer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="SortPath.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -117,6 +123,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="GDIDrawer.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="SortPath.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

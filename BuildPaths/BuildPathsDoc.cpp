@@ -43,14 +43,34 @@ BOOL CBuildPathsDoc::OnNewDocument()
 {
 	if (!CDocument::OnNewDocument())
 		return FALSE;
-;
+	CRect rc;
+	POSITION sd = GetFirstViewPosition();
+	GetNextView(sd)->GetClientRect(&rc);
+	
+
+	m_endOfDoc.m_x = rc.right - 1;
+	m_endOfDoc.m_y = rc.bottom - 1;
+
 
 	// TODO: добавьте код повторной инициализации
 	// (Документы SDI будут повторно использовать этот документ)
 
 	return TRUE;
 }
+Point CBuildPathsDoc::GetEndDoc()
+{
+	return m_endOfDoc;
+}
 
+std::list<Path>& CBuildPathsDoc::GetPaths()
+{
+	return m_paths.GetPaths();
+}
+
+std::list<Path>& CBuildPathsDoc::GetEndPaths()
+{
+	return m_paths.GetEndPaths();
+}
 
 
 
@@ -145,16 +165,17 @@ void CBuildPathsDoc::OnFileSave()
 {
 
 	CString File;
+	std::list<Path>& paths = m_paths.GetEndPaths();
 	//Проверка на наличие путей
-	if (Paths.size() == 0)
+	if (paths.size() == 0)
 	{
 		AfxMessageBox(_T("Нечего сохранять"));
 		return;
 	}
-	else
-		for (int i = 0; i < Paths.size(); i++)
+	else 
+		for (auto& path : paths)
 		{
-			if (Paths[i].IsEnd())
+			if (path.IsEnd())
 				continue;
 			else
 			{
@@ -178,51 +199,42 @@ void CBuildPathsDoc::OnFileSave()
 	// создание экземпляра документа
 	tinyxml2::XMLDocument doc;
 	//добавление декларации
-	XMLDeclaration* decl = doc.NewDeclaration();
+	tinyxml2::XMLDeclaration* decl = doc.NewDeclaration();
 	doc.InsertEndChild(decl);
 	//создание элемента документа
-	XMLElement* elem = doc.NewElement("Document");
+	tinyxml2::XMLElement* elem = doc.NewElement("Document");
 	doc.InsertEndChild(elem);
-	XMLElement* docsize = doc.NewElement("Windowsize");
+	tinyxml2::XMLElement* docsize = doc.NewElement("Windowsize");
 	elem->InsertEndChild(docsize);
 	// создание стартовой точки документа
-	XMLElement* StartPointDoc = doc.NewElement("StartPoint");
+	tinyxml2::XMLElement* StartPointDoc = doc.NewElement("StartPoint");
 	docsize->InsertFirstChild(StartPointDoc);
 	//создание точки Startx
-	XMLElement* xs = doc.NewElement("x");
+	tinyxml2::XMLElement* xs = doc.NewElement("x");
 	xs->SetText(0);
 	StartPointDoc->InsertEndChild(xs);
 	//создание точки Starty
-	XMLElement* ys = doc.NewElement("y");
+	tinyxml2::XMLElement* ys = doc.NewElement("y");
 	ys->SetText(0);
 	StartPointDoc->InsertEndChild(ys);
 	// создание конечной точки документа
-	XMLElement* FinishPointDoc = doc.NewElement("FinishPoint");
+	tinyxml2::XMLElement* FinishPointDoc = doc.NewElement("FinishPoint");
 	docsize->InsertEndChild(FinishPointDoc);
-	POSITION p = this->GetFirstViewPosition();
-	CRect rect;
-	CDC* pp = this->GetNextView(p)->GetWindowDC();
-	CWnd* ppp = pp->GetWindow();
-
-	
 	//создание точки Finishx
-	XMLElement* xf = doc.NewElement("x");
-	Point End = Paths[0].GetEndDoc();
-	xf->SetText(End.m_x);
+	tinyxml2::XMLElement* xf = doc.NewElement("x");
+	xf->SetText(m_endOfDoc.m_x);
 	FinishPointDoc->InsertEndChild(xf);
 	//создание точки Finishy
-	XMLElement* yf = doc.NewElement("y");
-	yf->SetText(End.m_y);
+	tinyxml2::XMLElement* yf = doc.NewElement("y");
+	yf->SetText(m_endOfDoc.m_y);
 	FinishPointDoc->InsertEndChild(yf);
 	// Создание в цикле количество путей и вызов метода преобразования
-	for (int i = 0; i < Paths.size(); i++)
+	for (auto& path : paths)
 	{
-		XMLElement* Objects = doc.NewElement("Objects");
+		tinyxml2::XMLElement* Objects = doc.NewElement("Objects");
 		elem->InsertEndChild(Objects);
-		Paths[i].ToXML(Objects, &doc);
+		path.ToXML(Objects, &doc);
 	}
-
-	
 	//сохранения файла
 	doc.SaveFile(FilePath);
 	doc.Clear();

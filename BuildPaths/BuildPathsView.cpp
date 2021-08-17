@@ -17,6 +17,7 @@
 
 
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -52,7 +53,6 @@ END_MESSAGE_MAP()
 CBuildPathsView::CBuildPathsView() noexcept
 {
 
-
 }
 
 CBuildPathsView::~CBuildPathsView()
@@ -71,16 +71,20 @@ BOOL CBuildPathsView::PreCreateWindow(CREATESTRUCT& cs)
 void CBuildPathsView::OnDraw(CDC* pDC)
 {
 	
-
-
+	CClientDC aDC(this);
+	m_drawer = std::make_unique<GDIDrawer>(&aDC);
 	CBuildPathsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
-	
+	std::list<Path>& listOfPath = pDoc->GetPaths();
 	//вызов в цикле отрисовщика
-	for (int i = 0; i < pDoc->Paths.size(); i++)
-		pDoc->Paths[i].Draw((Drawer->GetScene()));
+	std::list<Path>& listOfEndPath = pDoc->GetEndPaths();
+	for (auto& path :listOfPath)
+		path.Draw(m_drawer);
+	for (auto& path : listOfEndPath)
+		path.Draw(m_drawer);
+	
 
 }
 
@@ -143,7 +147,7 @@ void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 	temp.m_x = point.x;
 	temp.m_y = point.y;
 
-	Controller->AddPoint(temp);
+	m_controller->AddPoint(temp);
 	
 	OnDraw(&aDC); //вызов перерисовщик
 	CView::OnLButtonDown(nFlags, point);
@@ -168,7 +172,7 @@ void CBuildPathsView::OnLine2p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
 	ElemType = TypeElem::line2p;
-	Controller = std::make_unique<LineController>(ElemType, pDoc);
+	m_controller = std::make_unique<LineController>(ElemType, pDoc);
 	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
 	editrad->EnableWindow(false);
 	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
@@ -184,7 +188,7 @@ void CBuildPathsView::OnLinela()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
 	ElemType = TypeElem::linela;
-	Controller = std::make_unique<LineController>(ElemType, pDoc);
+	m_controller = std::make_unique<LineController>(ElemType, pDoc);
 	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
 	editrad->EnableWindow(false);
 	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
@@ -200,7 +204,7 @@ void CBuildPathsView::OnArc3p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
 	ElemType = TypeElem::arc3p;
-	Controller = std::make_unique<ArcController>(ElemType, pDoc);
+	m_controller = std::make_unique<ArcController>(ElemType, pDoc);
 	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
 	EditLength->EnableWindow(false);
 	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
@@ -217,7 +221,7 @@ void CBuildPathsView::OnArc2p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
 	ElemType = TypeElem::arc2p;
-	Controller = std::make_unique<ArcController>(ElemType, pDoc);
+	m_controller = std::make_unique<ArcController>(ElemType, pDoc);
 	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
 	EditLength->EnableWindow(false);
 	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
@@ -260,33 +264,27 @@ void CBuildPathsView::EnterData()
 	case TypeElem::linela:
 	{
 		int length = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_LENGTH));
-		if (length > 0 )
-		{
-			Controller->SetLength(length);
-		}
-		else
+		if (length <= 0 )
+	
 		{
 			AfxMessageBox(_T("Длина не может быть меньше или равен 0"));
 			return;
 		}
 		int angle = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_ANGLE));
-		Controller->SetAngle(angle);
+		m_controller->InputValue(length, angle);
 	}
 	break;
 	case TypeElem::arc2p:
 	{
 		int rad = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_RAD));
-		if (rad > 0 )
-		{
-			Controller->SetRad(rad);
-		}
-		else
+		if (rad <= 0 )
+	
 		{
 			AfxMessageBox(_T("Радиус не может быть меньше или равен 0"));
 			return;
 		}
 		int index = CMFCToolBarComboBoxButton::GetCurSelAll(IDS_COMBO);
-		Controller->SetClock(index);
+		m_controller->InputValue(rad, index);
 		
 	}
 	break;
@@ -299,5 +297,6 @@ void CBuildPathsView::EnterData()
 
 void CBuildPathsView::OnGdi()
 {
-	Drawer = std::make_unique<GDIDrawer>(std::make_shared<CClientDC>(this));
+
+	
 }

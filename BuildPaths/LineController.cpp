@@ -2,24 +2,21 @@
 #include "pch.h"
 #include "LineController.h"
 #include "LineSegment.h"
-LineController::LineController(TypeElem Elem, CBuildPathsDoc* pDoc) : m_build(Elem), m_pDoc(pDoc) {}
+LineController::LineController(TypeElem elem, CBuildPathsDoc* pDoc) : m_build(elem), m_pDoc(pDoc) {}
+void LineController::InputValue(int length, int angle)
+{
+	m_length = length;
+	m_bL = true;
+	m_angle = angle;
+	m_bA = true;
+	Check();
+}
 void LineController::calcLine()
 {
 	m_end.m_x = m_start.m_x + cos(m_angle * M_PI / 180) * m_length;
 	m_end.m_y = m_start.m_y + sin(m_angle * M_PI / 180) * m_length;
 }
-void LineController::SetLength(int length)
-{
-	m_length = length;
-	m_bL = true;
-	Check();
-}
-void LineController::SetAngle(int angle)
-{
-	m_angle = angle;
-	m_bA = true;
-	Check();
-}
+
 void LineController::AddPoint(Point p)
 {
 	switch (m_build)
@@ -57,32 +54,33 @@ void LineController::AddPoint(Point p)
 void LineController::EndPoints()
 {
 
-	Point EndOfDoc = m_pDoc->Paths[0].GetEndDoc();
-	if ((abs(m_end.m_x - EndOfDoc.m_x) < 10) && (abs(m_end.m_x - EndOfDoc.m_y) < 10))
+	Point endOfDoc = m_pDoc->GetEndDoc();
+	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_x - endOfDoc.m_y) < area))
 	{
-		m_end = EndOfDoc;
+		m_end = endOfDoc;
 	}
 
 }
-int LineController::GetIndex()
+Path& LineController::GetIndex()
 {
-
-	for (int i = 0; i < m_pDoc->Paths.size(); i++)
+	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	for (auto& path : listOfPath)
 	{
-		Point temp = m_pDoc->Paths[i].GetEndPath();
+		Point temp = path.GetEndPath();
 		if ((m_start.m_x == temp.m_x) & (m_start.m_y == temp.m_y))
-			return i;
+			return path;
 	}
-	return -1;
+	
+	
 }
 
-void LineController::AddToPath(Path* paths)
+void LineController::AddToPath(Path & m_paths)
 {
 	m_bS = false;
 	m_bL = false;
 	m_bE = false;
 	m_bA = false;
-	paths->Add(std::make_unique<LineSegment>(m_start, m_end), m_end);
+	m_paths.Add(std::make_unique<LineSegment>(m_start, m_end), m_end);
 }
 
 void LineController::Check()
@@ -90,51 +88,46 @@ void LineController::Check()
 	if (m_bS & m_bE)
 	{
 		EndPoints();
-		int index = GetIndex();
-		AddToPath(&m_pDoc->Paths[index]);
+		
+		AddToPath(GetIndex());
 	}
 	if (m_bS & m_bA & m_bL)
 	{
 		calcLine();
 		EndPoints();
-		int index = GetIndex();
-		AddToPath(&m_pDoc->Paths[index]);
+	
+		AddToPath(GetIndex());
 	}
 
 }
 bool LineController::CheckStart()
 {
-
-
-	// проверка на начало в области 10 пикселей
-	if ((abs(m_start.m_x - 10) < 10) & (abs(m_start.m_x - 10) < 10))
+	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	bool result = false;
+	// проверка на начало в области area пикселей
+	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_x - area) < area))
 	{
-		CRect rc;
-		POSITION sd = m_pDoc->GetFirstViewPosition();
-		m_pDoc->GetNextView(sd)->GetClientRect(&rc);
-		Point temp;
-		
-		temp.m_x = rc.right - 1;
-		temp.m_y = rc.bottom - 1;
-		Path path(temp);
-		m_pDoc->Paths.emplace_back(std::move(path));
+		Path path(m_pDoc->GetEndDoc());
+		listOfPath.emplace_back(std::move(path));
 		m_start.m_x = 0;
 		m_start.m_y = 0;
-		return true;
+		result =  true;
 	}
 	else
-		//проверка на концы путей в области 10 пикселей и на не закончен ли данный путь
-		for (int i = 0; i < m_pDoc->Paths.size(); i++)
-		{
+		//проверка на концы путей в области area пикселей и на не закончен ли данный путь
+		for (auto& path: listOfPath)
+		{	
+			if (path.IsEnd())
+				continue;
 
-			Point temp = m_pDoc->Paths[i].GetEndPath();
-			if ((abs(m_start.m_x - temp.m_x) < 10) & (abs(m_start.m_y - temp.m_y) < 10) & !m_pDoc->Paths[i].IsEnd())
+			Point temp = path.GetEndPath();
+			if ((abs(m_start.m_x - temp.m_x) < area) & (abs(m_start.m_y - temp.m_y) < area) )
 			{
 				m_start = temp;
-				return true;
+				result = true;
 			}
 		}
 
-	return false;
+	return result;
 
 }

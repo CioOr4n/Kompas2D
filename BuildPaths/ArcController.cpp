@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ArcController.h"
-ArcController::ArcController(TypeElem Elem, CBuildPathsDoc* pDoc) : m_build(Elem), m_pDoc(pDoc) {}
+ArcController::ArcController(TypeElem elem, CBuildPathsDoc* pDoc) : m_build(elem), m_pDoc(pDoc) {}
 void ArcController::AddPoint(Point p)
 {
 	switch (m_build)
@@ -51,59 +51,52 @@ void ArcController::AddPoint(Point p)
 
 }
 
-bool ArcController::CheckStart()
-{
-
-
-	// проверка на начало в области 10 пикселей
-	if ((abs(m_start.m_x - 10) < 10) & (abs(m_start.m_x - 10) < 10))
-	{
-		CRect rc;
-		POSITION sd = m_pDoc->GetFirstViewPosition();
-		m_pDoc->GetNextView(sd)->GetClientRect(&rc);
-		Point temp;
-		temp.m_x = rc.right - 1;
-		temp.m_y = rc.bottom - 1;
-		Path path(temp);
-		m_pDoc->Paths.emplace_back(std::move(path));
-		m_start.m_x = 0;
-		m_start.m_y = 0;
-		return true;
-	}
-	else
-		//проверка на концы путей в области 10 пикселей и на не закончен ли данный путь
-		for (int i = 0; i < m_pDoc->Paths.size(); i++)
-		{
-
-			Point temp = m_pDoc->Paths[i].GetEndPath();
-			if ((abs(m_start.m_x - temp.m_x) < 10) & (abs(m_start.m_y - temp.m_y) < 10) & !m_pDoc->Paths[i].IsEnd())
-			{
-				m_start = temp;
-				return true;
-			}
-		}
-
-	return false;
-
-}
-
-
-void ArcController::SetRad(int rad)
+void ArcController::InputValue(int rad, int clock)
 {
 	m_rad = rad;
 	m_bR = true;
-	Check();
-}
-
-void ArcController::SetClock(bool clock)
-{
 	m_clock = clock;
 	m_bCl = true;
 	Check();
 }
 
+bool ArcController::CheckStart()
+{
+	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	bool result = false;
+	// проверка на начало в области area пикселей
+	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_x - area) < area))
+	{
+	 
+		Path path(m_pDoc->GetEndDoc());
+	
+		listOfPath.emplace_back(std::move(path));
+		m_start.m_x = 0;
+		m_start.m_y = 0;
+		result = true;
+	}
+	else
+		//проверка на концы путей в области area пикселей и на не закончен ли данный путь
+		for (auto& path : listOfPath)
+		{
+			if (path.IsEnd())
+				continue;
+			Point temp = path.GetEndPath();
+			if ((abs(m_start.m_x - temp.m_x) < area) & (abs(m_start.m_y - temp.m_y) < area) )
+			{
+				m_start = temp;
+				result =  true;
+			}
+		}
 
-void ArcController::AddToPath(Path* path)
+	return result;
+
+}
+
+
+
+
+void ArcController::AddToPath(Path& path)
 {
 	Point end = m_end;
 	if (m_clock)
@@ -117,7 +110,7 @@ void ArcController::AddToPath(Path* path)
 	m_bE = false;
 	m_bCl = false;
 	m_bR = false;
-	path->Add(std::make_unique<CArc>(m_start, m_end, m_center, m_clock), end);
+	path.Add(std::make_unique<CArc>(m_start, m_end, m_center), end);
 
 }
 
@@ -127,19 +120,18 @@ void ArcController::Check()
 	if (m_bS & m_bM & m_bE)
 	{
 		EndPoints();
-		int index = GetIndex();
 
 		m_center = calc3p();
 		calcClock3p();
-		AddToPath(&m_pDoc->Paths[index]);
+		AddToPath(GetIndex());
 		return;
 	}
 	if (m_bS & m_bE & m_bR & m_bCl)
 	{
 		EndPoints();
-		int index = GetIndex();
+	
 		calc2p();
-		AddToPath(&m_pDoc->Paths[index]);
+		AddToPath(GetIndex());
 		return;
 	}
 }
@@ -229,21 +221,21 @@ void ArcController::calcClock3p()
 void ArcController::EndPoints()
 {
 
-	Point EndOfDoc = m_pDoc->Paths[0].GetEndDoc();
-	if ((abs(m_end.m_x - EndOfDoc.m_x) < 10) && (abs(m_end.m_x - EndOfDoc.m_y) < 10))
+	Point endOfDoc = m_pDoc->GetEndDoc();
+	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_x - endOfDoc.m_y) < area))
 	{
-		m_end = EndOfDoc;
+		m_end = endOfDoc;
 	}
 
 }
-int ArcController::GetIndex()
+Path& ArcController::GetIndex()
 {
-
-	for (int i = 0; i < m_pDoc->Paths.size(); i++)
+	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	for (auto& path : listOfPath)
 	{
-		Point temp = m_pDoc->Paths[i].GetEndPath();
+		Point temp = path.GetEndPath();
 		if ((m_start.m_x == temp.m_x) & (m_start.m_y == temp.m_y))
-			return i;
+			return path;
 	}
-	return -1;
+
 }

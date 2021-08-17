@@ -1,7 +1,9 @@
 #pragma once
+#include "Coord.h"
 #include <memory>
 class iDrawer
 {
 public:
-	virtual std::shared_ptr<CClientDC> GetScene() = 0;
+	virtual void DrawLine(Point, Point) = 0;
+	virtual void DrawArc(Point, Point, Point) = 0;
 };

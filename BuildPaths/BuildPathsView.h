@@ -52,9 +52,9 @@ protected:
 private:
 	TypeElem ElemType ;
 	Type Elem;
-	Point EndOfDoc;
-	std::unique_ptr<Controller> Controller;
-	std::unique_ptr<iDrawer> Drawer;
+	
+	std::unique_ptr<iController> m_controller;
+	std::unique_ptr<iDrawer> m_drawer;
 public:
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

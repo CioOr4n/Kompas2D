@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Path.h"
+
 void Path::Add(std::unique_ptr<iFigure> path, Point end) // добавление фигуры
 {
 	m_EndPath = end;
@@ -13,15 +14,12 @@ const Point Path::GetEndPath() // получение конца пути
 	return m_EndPath;
 }
 
-const Point Path::GetEndDoc()
-{
-	return m_EndDoc;
-}
 
-const void Path::Draw(std::shared_ptr<CClientDC> canvas) // отрисовка всего пути
+
+const void Path::Draw(std::unique_ptr<iDrawer>& draw) // отрисовка всего пути
 {
-	for (int i = 0; i < m_path.size(); i++)
-		m_path[i]->DrawFigure(canvas);
+	for (auto& path :m_path)
+		path->DrawFigure(draw);
 }
 
 const bool Path::IsEnd() // проверка закончен ли путь
@@ -29,11 +27,11 @@ const bool Path::IsEnd() // проверка закончен ли путь
 	return m_bIsEnd;
 }
 
-const void Path::ToXML(XMLElement* path, tinyxml2::XMLDocument* doc) // парсер в xml  
+const void Path::ToXML(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc) // парсер в xml  
 {
-	for (int i = 0; i < m_path.size(); i++)
+	for (auto& paths : m_path)
 	{
-		m_path[i]->ToXml(path, doc);
+		paths->ToXml(path, doc);
 	}
 
 }

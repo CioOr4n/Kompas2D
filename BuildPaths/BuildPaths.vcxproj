@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="ArcController.h" />
     <ClInclude Include="BuildPaths.h" />
+    <ClInclude Include="Coord.h" />
     <ClInclude Include="GDIDrawer.h" />
     <ClInclude Include="IController.h" />
     <ClInclude Include="BuildPathsDoc.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SortPath.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="tinyxml2.h" />
   </ItemGroup>
@@ -223,6 +225,7 @@
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="Figures.cpp" />
+    <ClCompile Include="SortPath.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 #include "IController.h"
 #include "CArc.h"
-class ArcController : public Controller
+class ArcController : public iController
 {
 private:
 	TypeElem m_build;
@@ -14,17 +14,14 @@ public:
 	ArcController(TypeElem, CBuildPathsDoc*);
 	virtual void AddPoint(Point) override;
 
-	virtual void SetRad(int) override;
-	virtual void SetClock(bool) override;
-	virtual void SetLength(int) override {};
-	virtual void SetAngle(int) override {};
+	virtual void InputValue(int, int) override;
 private:
-	virtual void AddToPath(Path*) override;
+	virtual void AddToPath(Path&) override;
 	void Check();
 	void calc2p();
 	Point calc3p();
 	void calcClock3p();
 	void EndPoints();
-	int GetIndex();
+	Path& GetIndex();
 	bool CheckStart();
 };

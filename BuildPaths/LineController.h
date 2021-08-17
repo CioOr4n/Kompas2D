@@ -1,7 +1,7 @@
 #pragma once
 #include "IController.h"
 
-class LineController : public Controller
+class LineController : public iController
 {
 private:
 	bool m_bS = false, m_bE = false, m_bA = false, m_bL = false;
@@ -11,17 +11,14 @@ private:
 	CBuildPathsDoc* m_pDoc;
 public:
 	LineController(TypeElem, CBuildPathsDoc*);
-	virtual void SetRad(int) override {};
-	virtual void SetClock(bool) override {};
-	virtual void SetLength(int) override;
-	virtual void SetAngle(int) override;
+	virtual void InputValue(int, int) override;
 	virtual void AddPoint(Point) override;
 
 private:
 	void calcLine();
-	virtual void AddToPath(Path*) override;
+	virtual void AddToPath(Path&) override;
 	void EndPoints();
-	int GetIndex();
+	Path& GetIndex();
 	void Check();
 	bool CheckStart();
 };
