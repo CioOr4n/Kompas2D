@@ -64,6 +64,7 @@ Point CBuildPathsDoc::GetEndDoc()
 
 std::list<Path>& CBuildPathsDoc::GetPaths()
 {
+	m_paths.Check(GetEndDoc());
 	return m_paths.GetPaths();
 }
 

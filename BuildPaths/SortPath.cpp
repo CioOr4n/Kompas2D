@@ -3,7 +3,6 @@
 
 std::list<Path>& SortPath::GetPaths()
 {
-	Check();
 	return m_unfinishedPaths;
 }
 
@@ -12,12 +11,12 @@ std::list<Path>& SortPath::GetEndPaths()
 	return m_endsPaths;
 }
 
-void SortPath::Check()
+void SortPath::Check(Point endDoc)
 {
 	std::list<Path>::iterator it = m_unfinishedPaths.begin();
 	for (auto& path : m_unfinishedPaths)
 	{
-		if (path.IsEnd())
+		if (path.GetEndPath() == endDoc)
 		{
 			m_endsPaths.splice(m_endsPaths.end(), m_unfinishedPaths, it);
 			break;

@@ -55,7 +55,7 @@ void LineController::EndPoints()
 {
 
 	Point endOfDoc = m_pDoc->GetEndDoc();
-	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_x - endOfDoc.m_y) < area))
+	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_y - endOfDoc.m_y) < area))
 	{
 		m_end = endOfDoc;
 	}
@@ -67,7 +67,7 @@ Path& LineController::GetIndex()
 	for (auto& path : listOfPath)
 	{
 		Point temp = path.GetEndPath();
-		if ((m_start.m_x == temp.m_x) & (m_start.m_y == temp.m_y))
+		if (m_start == temp)
 			return path;
 	}
 	
@@ -107,7 +107,7 @@ bool LineController::CheckStart()
 	// проверка на начало в области area пикселей
 	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_x - area) < area))
 	{
-		Path path(m_pDoc->GetEndDoc());
+		Path path;
 		listOfPath.emplace_back(std::move(path));
 		m_start.m_x = 0;
 		m_start.m_y = 0;

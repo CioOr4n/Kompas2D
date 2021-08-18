@@ -9,7 +9,6 @@ private:
 public: 
 	std::list<Path>& GetPaths();
 	std::list<Path>& GetEndPaths();
-private: 
-	void Check();
+	void Check(Point);
 
 };
