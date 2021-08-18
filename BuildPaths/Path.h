@@ -8,7 +8,7 @@ class Path // класс для хранения всего пути
 {
 
 	std::list<std::unique_ptr<iFigure>> m_path; // контейнер фигур
-	Point m_EndPath;
+	Point m_endPath;
 	bool m_bIsEnd = false;
 public:
 
