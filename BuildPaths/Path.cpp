@@ -5,28 +5,30 @@ void Path::Add(std::unique_ptr<iFigure> path, Point end) // добавление фигуры
 {
 	m_endPath = end;
 	m_path.emplace_back(std::move(path));
-
 }
 
- Point Path::GetEndPath() // получение конца пути
+
+Point Path::GetEndPath() // получение конца пути
 {
 	return m_endPath;
 }
 
 
 
- void Path::Draw(std::unique_ptr<iDrawer>& draw) // отрисовка всего пути
+void Path::Draw(iDrawer& draw) // отрисовка всего пути
 {
 	for (auto& path :m_path)
 		path->DrawFigure(draw);
 }
 
- bool Path::IsEnd() // проверка закончен ли путь
+
+bool Path::IsEnd() // проверка закончен ли путь
 {
 	return m_bIsEnd;
 }
 
- void Path::ToXML(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc) // парсер в xml  
+
+void Path::ToXML(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc) // парсер в xml  
 {
 	for (auto& paths : m_path)
 	{

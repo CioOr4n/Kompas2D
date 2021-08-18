@@ -1,7 +1,12 @@
 #include "pch.h"
 #include "ArcController.h"
 
-ArcController::ArcController(TypeElem elem, CBuildPathsDoc* pDoc) : m_build(elem), m_pDoc(pDoc) {}
+ArcController::ArcController(TypeElem elem, CBuildPathsDoc* pDoc)
+	: m_build(elem)
+	, m_pDoc(pDoc)
+{};
+
+
 void ArcController::AddPoint(Point p)
 {
 	switch (m_build)
@@ -34,7 +39,7 @@ void ArcController::AddPoint(Point p)
 		{
 			m_end = p;
 			m_bE = true;
-			return;
+			
 		}
 	}
 	break;
@@ -52,6 +57,7 @@ void ArcController::AddPoint(Point p)
 
 }
 
+
 void ArcController::InputValue(int rad, int clock)
 {
 	m_rad = rad;
@@ -60,6 +66,7 @@ void ArcController::InputValue(int rad, int clock)
 	m_bCl = true;
 	Check();
 }
+
 
 bool ArcController::CheckStart()
 {
@@ -94,8 +101,6 @@ bool ArcController::CheckStart()
 }
 
 
-
-
 void ArcController::AddToPath(Path& path)
 {
 	Point end = m_end;
@@ -114,6 +119,7 @@ void ArcController::AddToPath(Path& path)
 
 }
 
+
 void ArcController::Check()
 {
 
@@ -121,8 +127,8 @@ void ArcController::Check()
 	{
 		EndPoints();
 
-		m_center = calc3p();
-		calcClock3p();
+		m_center = Calc3p();
+		CalcClock3p();
 		AddToPath(GetIndex());
 		return;
 	}
@@ -130,14 +136,14 @@ void ArcController::Check()
 	{
 		EndPoints();
 	
-		calc2p();
+		Calc2p();
 		AddToPath(GetIndex());
 		return;
 	}
 }
 
 
-void ArcController::calc2p() // конструктор по 2 точкам и ридиусу
+void ArcController::Calc2p() // конструктор по 2 точкам и ридиусу
 {
 
 	m_clock = !m_clock;
@@ -163,8 +169,10 @@ void ArcController::calc2p() // конструктор по 2 точкам и ридиусу
 
 
 }
+
+
 // вычисления центра окружности для 3 точек
-Point ArcController::calc3p()
+Point ArcController::Calc3p()
 {
 	float k1 = (m_start.m_x + m_middle.m_x) / 2;
 	float k2 = (m_start.m_y + m_middle.m_y) / 2;
@@ -183,7 +191,7 @@ Point ArcController::calc3p()
 }
 
 
-void ArcController::calcClock3p()
+void ArcController::CalcClock3p()
 {
 
 	if ((m_start.m_x > m_middle.m_x) && (m_middle.m_x > m_end.m_x))
@@ -218,6 +226,7 @@ void ArcController::calcClock3p()
 			m_clock = true;
 }
 
+
 void ArcController::EndPoints()
 {
 
@@ -228,6 +237,8 @@ void ArcController::EndPoints()
 	}
 
 }
+
+
 Path& ArcController::GetIndex()
 {
 	std::list<Path>& listOfPath = m_pDoc->GetPaths();

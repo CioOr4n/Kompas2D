@@ -9,7 +9,6 @@
 #ifndef SHARED_HANDLERS
 #include "BuildPaths.h"
 #endif
-
 #include "BuildPathsDoc.h"
 
 #include <propkey.h>
@@ -35,9 +34,12 @@ CBuildPathsDoc::CBuildPathsDoc() noexcept
 
 }
 
+
 CBuildPathsDoc::~CBuildPathsDoc()
 {
+
 }
+
 
 BOOL CBuildPathsDoc::OnNewDocument()
 {
@@ -50,6 +52,11 @@ BOOL CBuildPathsDoc::OnNewDocument()
 
 	m_endOfDoc.m_x = rc.right - 1;
 	m_endOfDoc.m_y = rc.bottom - 1;
+	HWND hd = FindWindow(nullptr, _T("Построение путей"));
+	::GetWindowRect(hd,rc);
+	m_endOfWindows.m_x = rc.right-rc.left;
+	m_endOfWindows.m_y = rc.bottom-rc.top;
+
 
 
 	// TODO: добавьте код повторной инициализации
@@ -61,6 +68,8 @@ Point CBuildPathsDoc::GetEndDoc()
 {
 	return m_endOfDoc;
 }
+
+
 
 std::list<Path>& CBuildPathsDoc::GetPaths()
 {
@@ -165,7 +174,7 @@ void CBuildPathsDoc::Dump(CDumpContext& dc) const
 void CBuildPathsDoc::OnFileSave()
 {
 
-	CString File;
+	CString file;
 	std::list<Path>& paths = m_paths.GetEndPaths();
 	//Проверка на наличие путей
 	if (paths.size() == 0)
@@ -191,11 +200,11 @@ void CBuildPathsDoc::OnFileSave()
 	//вызов диалога и получение путей
 	if (fd.DoModal() == IDOK)
 	{
-		File = fd.GetPathName();
+		file = fd.GetPathName();
 	}
 	else return;
 	//Приведение к CStringA
-	CStringA FilePath(File);
+	CStringA filePath(file);
 	// создание экземпляра документа
 	tinyxml2::XMLDocument doc;
 	//добавление декларации
@@ -207,36 +216,34 @@ void CBuildPathsDoc::OnFileSave()
 	tinyxml2::XMLElement* docsize = doc.NewElement("Windowsize");
 	elem->InsertEndChild(docsize);
 	// создание стартовой точки документа
-	tinyxml2::XMLElement* StartPointDoc = doc.NewElement("StartPoint");
-	docsize->InsertFirstChild(StartPointDoc);
+	tinyxml2::XMLElement* startPointDoc = doc.NewElement("StartPoint");
+	docsize->InsertFirstChild(startPointDoc);
 	//создание точки Startx
 	tinyxml2::XMLElement* xs = doc.NewElement("x");
 	xs->SetText(0);
-	StartPointDoc->InsertEndChild(xs);
+	startPointDoc->InsertEndChild(xs);
 	//создание точки Starty
 	tinyxml2::XMLElement* ys = doc.NewElement("y");
 	ys->SetText(0);
-	StartPointDoc->InsertEndChild(ys);
+	startPointDoc->InsertEndChild(ys);
 	// создание конечной точки документа
-	tinyxml2::XMLElement* FinishPointDoc = doc.NewElement("FinishPoint");
-	docsize->InsertEndChild(FinishPointDoc);
+	tinyxml2::XMLElement* finishPointDoc = doc.NewElement("FinishPoint");
+	docsize->InsertEndChild(finishPointDoc);
 	//создание точки Finishx
 	tinyxml2::XMLElement* xf = doc.NewElement("x");
-	xf->SetText(m_endOfDoc.m_x);
-	FinishPointDoc->InsertEndChild(xf);
+	xf->SetText(m_endOfWindows.m_x);
+	finishPointDoc->InsertEndChild(xf);
 	//создание точки Finishy
 	tinyxml2::XMLElement* yf = doc.NewElement("y");
-	yf->SetText(m_endOfDoc.m_y);
-	FinishPointDoc->InsertEndChild(yf);
+	yf->SetText(m_endOfWindows.m_y);
+	finishPointDoc->InsertEndChild(yf);
 	// Создание в цикле количество путей и вызов метода преобразования
 	for (auto& path : paths)
 	{
-		tinyxml2::XMLElement* Objects = doc.NewElement("Objects");
-		elem->InsertEndChild(Objects);
-		path.ToXML(Objects, &doc);
+		tinyxml2::XMLElement* objects = doc.NewElement("Objects");
+		elem->InsertEndChild(objects);
+		path.ToXML(objects, &doc);
 	}
 	//сохранения файла
-	doc.SaveFile(FilePath);
-	doc.Clear();
-	doc.~XMLDocument();
+	doc.SaveFile(filePath);
 }

@@ -1,41 +1,48 @@
 #include "pch.h"
 #include "LineSegment.h"
 
-LineSegment::LineSegment(Point start, Point end) : m_start(start), m_end(end) {};
+LineSegment::LineSegment(Point start, Point end) 
+	: m_start(start)
+	, m_end(end) 
+{};
 
 
-const void LineSegment::DrawFigure(std::unique_ptr<iDrawer>& draw)
+void LineSegment::DrawFigure(iDrawer& draw)
 {
-	draw->DrawLine(m_start, m_end);
+	draw.DrawLine(m_start, m_end);
 }
-const Type LineSegment::FigureType()
+
+
+Type LineSegment::FigureType()
 {
 	return Type::line;
 }
-const void LineSegment::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
+ 
+
+void LineSegment::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 {
-	tinyxml2::XMLElement* Line = doc->NewElement("LineSegment");
-	path->InsertEndChild(Line);
+	tinyxml2::XMLElement* line = doc->NewElement("LineSegment");
+	path->InsertEndChild(line);
 	//Создаем стартовую точку
-	tinyxml2::XMLElement* StartPoint = doc->NewElement("StartPoint");
-	Line->InsertEndChild(StartPoint);
+	tinyxml2::XMLElement* startPoint = doc->NewElement("startPoint");
+	line->InsertEndChild(startPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xs = doc->NewElement("x");
 	xs->SetText(m_start.m_x);
-	StartPoint->InsertEndChild(xs);
+	startPoint->InsertEndChild(xs);
 	// создаем точку y
 	tinyxml2::XMLElement* ys = doc->NewElement("y");
 	ys->SetText(m_start.m_y);
-	StartPoint->InsertEndChild(ys);
+	startPoint->InsertEndChild(ys);
 	//Создаем конечную точку
-	tinyxml2::XMLElement* FinishPoint = doc->NewElement("FinishPoint");
-	Line->InsertEndChild(FinishPoint);
+	tinyxml2::XMLElement* finishPoint = doc->NewElement("finishPoint");
+	line->InsertEndChild(finishPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xf = doc->NewElement("x");
 	xf->SetText(m_end.m_x);
-	FinishPoint->InsertEndChild(xf);
+	finishPoint->InsertEndChild(xf);
 	// создаем точку y
 	tinyxml2::XMLElement* yf = doc->NewElement("y");
 	yf->SetText(m_end.m_y);
-	FinishPoint->InsertEndChild(yf);
+	finishPoint->InsertEndChild(yf);
 }

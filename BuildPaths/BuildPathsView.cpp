@@ -81,11 +81,11 @@ void CBuildPathsView::OnDraw(CDC* pDC)
 	//вызов в цикле отрисовщика
 	std::list<Path>& listOfEndPath = pDoc->GetEndPaths();
 	for (auto& path :listOfPath)
-		path.Draw(m_drawer);
+		path.Draw(*m_drawer);
 	for (auto& path : listOfEndPath)
-		path.Draw(m_drawer);
+		path.Draw(*m_drawer);
 	
-
+	
 }
 
 
@@ -135,7 +135,7 @@ CBuildPathsDoc* CBuildPathsView::GetDocument() const // встроена нео�
 // нажатие на левую кнопку мыши
 void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	if (ElemType > TypeElem::arc2p || ElemType < TypeElem::line2p)
+	if (elemType > TypeElem::arc2p || elemType < TypeElem::line2p)
 	{
 		AfxMessageBox(_T("Выберите построение"));
 		return;
@@ -149,7 +149,8 @@ void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 
 	m_controller->AddPoint(temp);
 	
-	OnDraw(&aDC); //вызов перерисовщик
+	OnDraw(&aDC);
+	 //вызов перерисовщик
 	CView::OnLButtonDown(nFlags, point);
 }
 
@@ -171,48 +172,48 @@ void CBuildPathsView::OnMouseMove(UINT nFlags, CPoint point)
 void CBuildPathsView::OnLine2p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
-	ElemType = TypeElem::line2p;
-	m_controller = std::make_unique<LineController>(ElemType, pDoc);
-	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
-	editrad->EnableWindow(false);
-	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
-	EditLength->EnableWindow(false);
-	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
-	EditAngle->EnableWindow(false);
-	CMFCToolBarComboBoxButton* Combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
-	Combo->SetFlatMode(false);
+	elemType = TypeElem::line2p;
+	m_controller = std::make_unique<LineController>(elemType, pDoc);
+	CMFCToolBarEditBoxButton* editRad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
+	editRad->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
+	editLength->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
+	editAngle->EnableWindow(false);
+	CMFCToolBarComboBoxButton* combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
+	combo->SetFlatMode(false);
 }
 
 
 void CBuildPathsView::OnLinela()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
-	ElemType = TypeElem::linela;
-	m_controller = std::make_unique<LineController>(ElemType, pDoc);
-	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
-	editrad->EnableWindow(false);
-	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
-	EditLength->EnableWindow(true);
-	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
-	EditAngle->EnableWindow(true);
-	CMFCToolBarComboBoxButton* Combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
-	Combo->SetFlatMode(false);
+	elemType = TypeElem::linela;
+	m_controller = std::make_unique<LineController>(elemType, pDoc);
+	CMFCToolBarEditBoxButton* editRad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
+	editRad->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
+	editLength->EnableWindow(true);
+	CMFCToolBarEditBoxButton* editAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
+	editAngle->EnableWindow(true);
+	CMFCToolBarComboBoxButton* combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
+	combo->SetFlatMode(false);
 }
 
 
 void CBuildPathsView::OnArc3p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
-	ElemType = TypeElem::arc3p;
-	m_controller = std::make_unique<ArcController>(ElemType, pDoc);
-	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
-	EditLength->EnableWindow(false);
-	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
-	EditAngle->EnableWindow(false);
-	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
-	editrad->EnableWindow(false);
-	CMFCToolBarComboBoxButton* Combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
-	Combo->SetFlatMode(false);
+	elemType = TypeElem::arc3p;
+	m_controller = std::make_unique<ArcController>(elemType, pDoc);
+	CMFCToolBarEditBoxButton* editLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
+	editLength->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
+	editAngle->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editRad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
+	editRad->EnableWindow(false);
+	CMFCToolBarComboBoxButton* combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
+	combo->SetFlatMode(false);
 
 }
 
@@ -220,46 +221,46 @@ void CBuildPathsView::OnArc3p()
 void CBuildPathsView::OnArc2p()
 {
 	CBuildPathsDoc* pDoc = GetDocument();
-	ElemType = TypeElem::arc2p;
-	m_controller = std::make_unique<ArcController>(ElemType, pDoc);
-	CMFCToolBarEditBoxButton* EditLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
-	EditLength->EnableWindow(false);
-	CMFCToolBarEditBoxButton* EditAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
-	EditAngle->EnableWindow(false);
-	CMFCToolBarEditBoxButton* editrad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
-	editrad->EnableWindow(true);
-	CMFCToolBarComboBoxButton* Combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
-	Combo->SetFlatMode(true);
+	elemType = TypeElem::arc2p;
+	m_controller = std::make_unique<ArcController>(elemType, pDoc);
+	CMFCToolBarEditBoxButton* editLength = CMFCToolBarEditBoxButton::GetByCmd(IDS_LENGTH);
+	editLength->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editAngle = CMFCToolBarEditBoxButton::GetByCmd(IDS_ANGLE);
+	editAngle->EnableWindow(false);
+	CMFCToolBarEditBoxButton* editRad = CMFCToolBarEditBoxButton::GetByCmd(IDS_RAD);
+	editRad->EnableWindow(true);
+	CMFCToolBarComboBoxButton* combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
+	combo->SetFlatMode(true);
 }
 
 
 void CBuildPathsView::OnUpdateLine2p(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(ElemType == TypeElem::line2p);
+	pCmdUI->SetCheck(elemType == TypeElem::line2p);
 	
 }
 
 
 void CBuildPathsView::OnUpdateLinela(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(ElemType == TypeElem::linela);
+	pCmdUI->SetCheck(elemType == TypeElem::linela);
 }
 
 
 void CBuildPathsView::OnUpdateArc3p(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(ElemType == TypeElem::arc3p);
+	pCmdUI->SetCheck(elemType == TypeElem::arc3p);
 }
 
 
 void CBuildPathsView::OnUpdateArc2p(CCmdUI* pCmdUI)
 {
-	pCmdUI->SetCheck(ElemType == TypeElem::arc2p);
+	pCmdUI->SetCheck(elemType == TypeElem::arc2p);
 }
 
 void CBuildPathsView::EnterData()
 {
-	switch (ElemType)
+	switch (elemType)
 	{
 	case TypeElem::linela:
 	{

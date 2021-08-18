@@ -2,7 +2,13 @@
 #include "pch.h"
 #include "LineController.h"
 #include "LineSegment.h"
-LineController::LineController(TypeElem elem, CBuildPathsDoc* pDoc) : m_build(elem), m_pDoc(pDoc) {}
+
+LineController::LineController(TypeElem elem, CBuildPathsDoc* pDoc)
+	:m_build(elem)
+	,m_pDoc(pDoc)
+{};
+
+
 void LineController::InputValue(int length, int angle)
 {
 	m_length = length;
@@ -11,11 +17,14 @@ void LineController::InputValue(int length, int angle)
 	m_bA = true;
 	Check();
 }
-void LineController::calcLine()
+
+
+void LineController::CalcLine()
 {
 	m_end.m_x = m_start.m_x + cos(m_angle * M_PI / 180) * m_length;
 	m_end.m_y = m_start.m_y + sin(m_angle * M_PI / 180) * m_length;
 }
+
 
 void LineController::AddPoint(Point p)
 {
@@ -51,6 +60,7 @@ void LineController::AddPoint(Point p)
 	Check();
 }
 
+
 void LineController::EndPoints()
 {
 
@@ -61,6 +71,8 @@ void LineController::EndPoints()
 	}
 
 }
+
+
 Path& LineController::GetIndex()
 {
 	std::list<Path>& listOfPath = m_pDoc->GetPaths();
@@ -74,6 +86,7 @@ Path& LineController::GetIndex()
 	
 }
 
+
 void LineController::AddToPath(Path & m_paths)
 {
 	m_bS = false;
@@ -83,23 +96,24 @@ void LineController::AddToPath(Path & m_paths)
 	m_paths.Add(std::make_unique<LineSegment>(m_start, m_end), m_end);
 }
 
+
 void LineController::Check()
 {
 	if (m_bS & m_bE)
 	{
 		EndPoints();
-		
 		AddToPath(GetIndex());
 	}
 	if (m_bS & m_bA & m_bL)
 	{
-		calcLine();
+		CalcLine();
 		EndPoints();
-	
 		AddToPath(GetIndex());
 	}
 
 }
+
+
 bool LineController::CheckStart()
 {
 	std::list<Path>& listOfPath = m_pDoc->GetPaths();
@@ -124,7 +138,5 @@ bool LineController::CheckStart()
 				result = true;
 			}
 		}
-
 	return result;
-
 }

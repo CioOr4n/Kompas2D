@@ -15,10 +15,11 @@ enum class Type { line, Arc }; // перечисление для вид фигур
 class iFigure // интерфейс
 {
 public:
-	const virtual void DrawFigure(std::unique_ptr<iDrawer>& draw) = 0; // отрисовка фигуры
-	const virtual Type FigureType() = 0; // тип фигуры
-	const virtual void ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc) = 0;
 	virtual ~iFigure() {};
+public:
+	 virtual void DrawFigure(iDrawer &) = 0; // отрисовка фигуры
+	 virtual Type FigureType() = 0; // тип фигуры
+	 virtual void ToXml(tinyxml2::XMLElement*, tinyxml2::XMLDocument*) = 0;
 };
 
 

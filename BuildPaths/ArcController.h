@@ -13,15 +13,15 @@ private:
 	bool m_bS = false, m_bR = false, m_bM = false, m_bE = false, m_bCl = false;
 public:
 	ArcController(TypeElem, CBuildPathsDoc*);
+public:
 	virtual void AddPoint(Point) override;
-
 	virtual void InputValue(int, int) override;
-private:
 	virtual void AddToPath(Path&) override;
+private:
 	void Check();
-	void calc2p();
-	Point calc3p();
-	void calcClock3p();
+	void Calc2p();
+	Point Calc3p();
+	void CalcClock3p();
 	void EndPoints();
 	Path& GetIndex();
 	bool CheckStart();

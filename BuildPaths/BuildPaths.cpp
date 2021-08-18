@@ -8,7 +8,6 @@
 #include "afxdialogex.h"
 #include "BuildPaths.h"
 #include "MainFrm.h"
-
 #include "BuildPathsDoc.h"
 #include "BuildPathsView.h"
 

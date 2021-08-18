@@ -6,8 +6,8 @@
 #include "Figures.h"
 #include "BuildPathsDoc.h"
 
-
 const int area = 10;
+
 class iController
 {
 public: 

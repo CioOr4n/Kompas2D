@@ -2,12 +2,13 @@
 // BuildPathsDoc.h: интерфейс класса CBuildPathsDoc 
 //
 #pragma once
-#include <list>
-#include <vector>
+
 #include "Figures.h"
 #include "Path.h"
 #include "SortPath.h"
 
+#include <list>
+#include <vector>
 
 
 class CBuildPathsDoc : public CDocument
@@ -18,6 +19,7 @@ protected: // создать только из сериализации
 private:
 	Point m_endOfDoc;
 	SortPath m_paths;
+	Point m_endOfWindows;
 
 // Атрибуты
 

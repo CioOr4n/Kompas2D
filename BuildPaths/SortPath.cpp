@@ -6,10 +6,12 @@ std::list<Path>& SortPath::GetPaths()
 	return m_unfinishedPaths;
 }
 
+
 std::list<Path>& SortPath::GetEndPaths()
 {
 	return m_endsPaths;
 }
+
 
 void SortPath::Check(Point endDoc)
 {

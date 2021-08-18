@@ -11,12 +11,12 @@ private:
 	CBuildPathsDoc* m_pDoc;
 public:
 	LineController(TypeElem, CBuildPathsDoc*);
+public: 
 	virtual void InputValue(int, int) override;
 	virtual void AddPoint(Point) override;
-
-private:
-	void calcLine();
 	virtual void AddToPath(Path&) override;
+private:
+	void CalcLine();
 	void EndPoints();
 	Path& GetIndex();
 	void Check();

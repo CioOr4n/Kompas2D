@@ -50,8 +50,8 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 private:
-	TypeElem ElemType ;
-	Type Elem;
+	TypeElem elemType ;
+
 	
 	std::unique_ptr<iController> m_controller;
 	std::unique_ptr<iDrawer> m_drawer;
