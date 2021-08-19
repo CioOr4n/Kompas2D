@@ -97,6 +97,7 @@ void CBuildPathsView::OnRButtonUp(UINT /* nFlags */, CPoint point)
 	OnContextMenu(this, point);
 }
 
+
 void CBuildPathsView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
 #ifndef SHARED_HANDLERS
@@ -125,14 +126,6 @@ CBuildPathsDoc* CBuildPathsView::GetDocument() const // встроена нео�
 }
 #endif //_DEBUG
 
-
-// Обработчики сообщений CBuildPathsView
-
-
-
-
-
-
 // нажатие на левую кнопку мыши
 void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 {
@@ -147,9 +140,7 @@ void CBuildPathsView::OnLButtonDown(UINT nFlags, CPoint point)
 	Point temp;
 	temp.m_x = point.x;
 	temp.m_y = point.y;
-
 	m_controller->AddPoint(temp);
-	
 	OnDraw(&aDC);
 	 //вызов перерисовщик
 	CView::OnLButtonDown(nFlags, point);
@@ -166,8 +157,6 @@ void CBuildPathsView::OnMouseMove(UINT nFlags, CPoint point)
 	CMFCToolBarEditBoxButton::SetContentsAll(IDS_Y, pos);
 	CView::OnMouseMove(nFlags, point);
 }
-
-
 
 
 void CBuildPathsView::OnLine2p()
@@ -303,7 +292,7 @@ void CBuildPathsView::EnterData()
 			else
 			{
 				m_controller->InputValue(TypeOfData::rad, rad);
-				CMFCToolBarEditBoxButton::SetContentsAll(IDS_LENGTH, _T(""));
+				CMFCToolBarEditBoxButton::SetContentsAll(IDS_RAD, _T(""));
 			}
 		}
 		int index = CMFCToolBarComboBoxButton::GetCurSelAll(IDS_COMBO);
@@ -315,7 +304,6 @@ void CBuildPathsView::EnterData()
 	CClientDC aDC(this);
 	OnDraw(&aDC);
 }
-
 
 
 void CBuildPathsView::OnGdi()

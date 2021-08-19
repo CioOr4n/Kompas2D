@@ -52,10 +52,7 @@ BOOL CBuildPathsDoc::OnNewDocument()
 
 	m_endOfDoc.m_x = rc.right - 1;
 	m_endOfDoc.m_y = rc.bottom - 1;
-	HWND hd = FindWindow(nullptr, _T("Построение путей"));
-	::GetWindowRect(hd,rc);
-	m_endOfWindows.m_x = rc.right-rc.left;
-	m_endOfWindows.m_y = rc.bottom-rc.top;
+
 
 
 
@@ -231,11 +228,11 @@ void CBuildPathsDoc::OnFileSave()
 	docsize->InsertEndChild(finishPointDoc);
 	//создание точки Finishx
 	tinyxml2::XMLElement* xf = doc.NewElement("x");
-	xf->SetText(m_endOfWindows.m_x);
+	xf->SetText(m_endOfDoc.m_x);
 	finishPointDoc->InsertEndChild(xf);
 	//создание точки Finishy
 	tinyxml2::XMLElement* yf = doc.NewElement("y");
-	yf->SetText(m_endOfWindows.m_y);
+	yf->SetText(m_endOfDoc.m_y);
 	finishPointDoc->InsertEndChild(yf);
 	// Создание в цикле количество путей и вызов метода преобразования
 	for (auto& path : paths)

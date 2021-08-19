@@ -19,7 +19,6 @@ protected: // создать только из сериализации
 private:
 	Point m_endOfDoc;
 	SortPath m_paths;
-	Point m_endOfWindows;
 
 // Атрибуты
 
