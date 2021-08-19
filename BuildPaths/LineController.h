@@ -11,6 +11,7 @@ private:
 	CBuildPathsDoc* m_pDoc;
 public:
 	LineController(TypeElem, CBuildPathsDoc*);
+	virtual ~LineController() {};
 public: 
 	virtual void AddPoint(Point) override;
 	virtual void InputValue(TypeOfData, int) override;

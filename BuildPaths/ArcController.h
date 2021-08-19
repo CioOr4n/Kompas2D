@@ -13,6 +13,7 @@ private:
 	bool m_bS = false, m_bR = false, m_bM = false, m_bE = false, m_bCl = false;
 public:
 	ArcController(TypeElem, CBuildPathsDoc*);
+	virtual ~ArcController() {};
 public:
 	virtual void AddPoint(Point) override;
 	virtual void InputValue(TypeOfData, int) override;

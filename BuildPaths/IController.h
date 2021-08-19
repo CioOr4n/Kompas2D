@@ -14,6 +14,8 @@ const int area = 10;
 class iController
 {
 public: 
+	virtual ~iController() {};
+public: 
 	virtual void AddToPath(Path&) = 0;
 	virtual void AddPoint(Point) = 0;
 	virtual void InputValue(TypeOfData, int) = 0;
