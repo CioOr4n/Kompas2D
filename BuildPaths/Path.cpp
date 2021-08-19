@@ -22,12 +22,6 @@ void Path::Draw(iDrawer& draw) // отрисовка всего пути
 }
 
 
-bool Path::IsEnd() // проверка закончен ли путь
-{
-	return m_bIsEnd;
-}
-
-
 void Path::ToXML(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc) // парсер в xml  
 {
 	for (auto& paths : m_path)

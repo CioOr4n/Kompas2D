@@ -6,6 +6,9 @@
 #include "Figures.h"
 #include "BuildPathsDoc.h"
 
+
+enum class TypeOfData { rad, length, angle,clock };
+
 const int area = 10;
 
 class iController
@@ -13,7 +16,7 @@ class iController
 public: 
 	virtual void AddToPath(Path&) = 0;
 	virtual void AddPoint(Point) = 0;
-	virtual void InputValue(int, int) = 0;
+	virtual void InputValue(TypeOfData, int) = 0;
 };
 
 

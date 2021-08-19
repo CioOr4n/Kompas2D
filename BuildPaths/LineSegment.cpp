@@ -13,18 +13,13 @@ void LineSegment::DrawFigure(iDrawer& draw)
 }
 
 
-Type LineSegment::FigureType()
-{
-	return Type::line;
-}
- 
 
 void LineSegment::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 {
 	tinyxml2::XMLElement* line = doc->NewElement("LineSegment");
 	path->InsertEndChild(line);
 	//Создаем стартовую точку
-	tinyxml2::XMLElement* startPoint = doc->NewElement("startPoint");
+	tinyxml2::XMLElement* startPoint = doc->NewElement("StartPoint");
 	line->InsertEndChild(startPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xs = doc->NewElement("x");
@@ -35,7 +30,7 @@ void LineSegment::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 	ys->SetText(m_start.m_y);
 	startPoint->InsertEndChild(ys);
 	//Создаем конечную точку
-	tinyxml2::XMLElement* finishPoint = doc->NewElement("finishPoint");
+	tinyxml2::XMLElement* finishPoint = doc->NewElement("FinishPoint");
 	line->InsertEndChild(finishPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xf = doc->NewElement("x");

@@ -12,8 +12,8 @@ private:
 public:
 	LineController(TypeElem, CBuildPathsDoc*);
 public: 
-	virtual void InputValue(int, int) override;
 	virtual void AddPoint(Point) override;
+	virtual void InputValue(TypeOfData, int) override;
 	virtual void AddToPath(Path&) override;
 private:
 	void CalcLine();

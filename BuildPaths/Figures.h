@@ -10,7 +10,6 @@
 
 
 enum class TypeElem {line2p, linela, arc3p,arc2p}; // перечисления для выбора фигур
-enum class Type { line, Arc }; // перечисление для вид фигур
 
 class iFigure // интерфейс
 {
@@ -18,7 +17,6 @@ public:
 	virtual ~iFigure() {};
 public:
 	 virtual void DrawFigure(iDrawer &) = 0; // отрисовка фигуры
-	 virtual Type FigureType() = 0; // тип фигуры
 	 virtual void ToXml(tinyxml2::XMLElement*, tinyxml2::XMLDocument*) = 0;
 };
 

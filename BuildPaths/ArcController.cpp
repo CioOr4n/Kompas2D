@@ -58,12 +58,23 @@ void ArcController::AddPoint(Point p)
 }
 
 
-void ArcController::InputValue(int rad, int clock)
+void ArcController::InputValue(TypeOfData type, int value)
 {
-	m_rad = rad;
-	m_bR = true;
-	m_clock = clock;
-	m_bCl = true;
+	switch (type)
+	{
+	case TypeOfData::rad:
+	{
+		m_rad = value;
+		m_bR = true;
+	}
+	break;
+	case TypeOfData::clock:
+	{
+		m_clock = value;
+		m_bCl = true;
+	}
+	break;
+	}
 	Check();
 }
 

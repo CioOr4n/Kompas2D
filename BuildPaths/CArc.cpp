@@ -14,10 +14,6 @@ void CArc::DrawFigure(iDrawer & draw)
 }
 
 
-Type CArc::FigureType()
-{
-	return Type::Arc;
-}
 
 
 void CArc::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
@@ -26,7 +22,7 @@ void CArc::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 
 	path->InsertEndChild(arcSegment);
 	//Создаем стартовую точку
-	tinyxml2::XMLElement* startPoint = doc->NewElement("startPoint");
+	tinyxml2::XMLElement* startPoint = doc->NewElement("StartPoint");
 	arcSegment->InsertEndChild(startPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xs = doc->NewElement("x");
@@ -37,7 +33,7 @@ void CArc::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 	ys->SetText(m_start.m_y);
 	startPoint->InsertEndChild(ys);
 	//Создаем Центр дуги
-	tinyxml2::XMLElement* centerPoint = doc->NewElement("centerPoint");
+	tinyxml2::XMLElement* centerPoint = doc->NewElement("CenterPoint");
 	arcSegment->InsertEndChild(centerPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xc = doc->NewElement("x");
@@ -48,7 +44,7 @@ void CArc::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 	yc->SetText(m_center.m_y);
 	centerPoint->InsertEndChild(yc);
 	//Создаем конечную точку
-	tinyxml2::XMLElement* finishPoint = doc->NewElement("finishPoint");
+	tinyxml2::XMLElement* finishPoint = doc->NewElement("FinishPoint");
 	arcSegment->InsertEndChild(finishPoint);
 	// создаем точку x
 	tinyxml2::XMLElement* xf = doc->NewElement("x");

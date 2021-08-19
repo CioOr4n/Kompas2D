@@ -53,6 +53,7 @@ END_MESSAGE_MAP()
 CBuildPathsView::CBuildPathsView() noexcept
 {
 
+
 }
 
 CBuildPathsView::~CBuildPathsView()
@@ -70,13 +71,13 @@ BOOL CBuildPathsView::PreCreateWindow(CREATESTRUCT& cs)
 
 void CBuildPathsView::OnDraw(CDC* pDC)
 {
-	
+
 	m_drawer = std::make_unique<GDIDrawer>(pDC);
-	
 	CBuildPathsDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
+
 	std::list<Path>& listOfPath = pDoc->GetPaths();
 	//вызов в цикле отрисовщика
 	std::list<Path>& listOfEndPath = pDoc->GetEndPaths();
@@ -264,28 +265,49 @@ void CBuildPathsView::EnterData()
 	{
 	case TypeElem::linela:
 	{
-		int length = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_LENGTH));
-		if (length <= 0 )
-	
+		CString temp = CMFCToolBarEditBoxButton::GetContentsAll(IDS_LENGTH);
+		if (temp != "")
 		{
-			AfxMessageBox(_T("Длина не может быть меньше или равен 0"));
-			return;
+			int length = _ttoi(temp);
+			if (length <= 0)
+			{
+				AfxMessageBox(_T("Длина не может быть меньше или равен 0"));
+				break;
+			}
+			else
+			{
+				m_controller->InputValue(TypeOfData::length, length);
+				CMFCToolBarEditBoxButton::SetContentsAll(IDS_LENGTH, _T(""));
+			}
 		}
-		int angle = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_ANGLE));
-		m_controller->InputValue(length, angle);
+		temp = CMFCToolBarEditBoxButton::GetContentsAll(IDS_ANGLE); 
+		if (temp != "")
+		{
+			int angle = _ttoi(temp);
+				m_controller->InputValue(TypeOfData::angle, angle);
+				CMFCToolBarEditBoxButton::SetContentsAll(IDS_ANGLE, _T(""));
+		}
 	}
 	break;
 	case TypeElem::arc2p:
 	{
-		int rad = _ttoi(CMFCToolBarEditBoxButton::GetContentsAll(IDS_RAD));
-		if (rad <= 0 )
-	
+		CString temp = CMFCToolBarEditBoxButton::GetContentsAll(IDS_RAD);
+		if (temp != "")
 		{
-			AfxMessageBox(_T("Радиус не может быть меньше или равен 0"));
-			return;
+			int rad = _ttoi(temp);
+			if (rad <= 0)
+			{
+				AfxMessageBox(_T("Радиус не может быть меньше или равен 0"));
+				break;
+			}
+			else
+			{
+				m_controller->InputValue(TypeOfData::rad, rad);
+				CMFCToolBarEditBoxButton::SetContentsAll(IDS_LENGTH, _T(""));
+			}
 		}
 		int index = CMFCToolBarComboBoxButton::GetCurSelAll(IDS_COMBO);
-		m_controller->InputValue(rad, index);
+		m_controller->InputValue(TypeOfData::clock, index);
 		
 	}
 	break;
@@ -298,5 +320,5 @@ void CBuildPathsView::EnterData()
 
 void CBuildPathsView::OnGdi()
 {
-
+	
 }

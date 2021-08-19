@@ -71,13 +71,13 @@ Point CBuildPathsDoc::GetEndDoc()
 
 
 
-std::list<Path>& CBuildPathsDoc::GetPaths()
+ std::list<Path>& CBuildPathsDoc::GetPaths()
 {
 	m_paths.Check(GetEndDoc());
 	return m_paths.GetPaths();
 }
 
-std::list<Path>& CBuildPathsDoc::GetEndPaths()
+ std::list<Path>& CBuildPathsDoc::GetEndPaths()
 {
 	return m_paths.GetEndPaths();
 }

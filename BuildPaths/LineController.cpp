@@ -9,12 +9,23 @@ LineController::LineController(TypeElem elem, CBuildPathsDoc* pDoc)
 {};
 
 
-void LineController::InputValue(int length, int angle)
+void LineController::InputValue(TypeOfData type, int value)
 {
-	m_length = length;
-	m_bL = true;
-	m_angle = angle;
-	m_bA = true;
+	switch (type)
+	{
+	case TypeOfData::length:
+	{
+		m_length = value;
+		m_bL = true;
+	}
+	break;
+	case TypeOfData::angle:
+	{
+		m_angle = value;
+		m_bA = true;
+	}
+	break;
+	}
 	Check();
 }
 
@@ -63,13 +74,11 @@ void LineController::AddPoint(Point p)
 
 void LineController::EndPoints()
 {
-
 	Point endOfDoc = m_pDoc->GetEndDoc();
 	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_y - endOfDoc.m_y) < area))
 	{
 		m_end = endOfDoc;
 	}
-
 }
 
 
