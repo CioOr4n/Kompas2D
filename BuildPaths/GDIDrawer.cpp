@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "GDIDrawer.h"
 
+#define _USE_MATH_DEFINES
+#include <corecrt_math_defines.h>
 void GDIDrawer::DrawLine(Point start, Point end)
 {
 	m_dc->MoveTo(start.m_x, start.m_y);
@@ -10,7 +12,6 @@ void GDIDrawer::DrawLine(Point start, Point end)
 
 void GDIDrawer::DrawArc(Point start, Point end, Point centerell)
 {
-
 	double start_angle = atan2(1. * (centerell.m_y - start.m_y), (start.m_x - centerell.m_x));
 	double sweep_angle = atan2(1. * (centerell.m_y - end.m_y), (end.m_x - centerell.m_x));
 	double radius = sqrt(pow(end.m_x - centerell.m_x, 2) + pow(end.m_y - centerell.m_y, 2));

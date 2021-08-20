@@ -14,8 +14,6 @@ void CArc::DrawFigure(iDrawer & draw)
 }
 
 
-
-
 void CArc::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 {
 	tinyxml2::XMLElement* arcSegment = doc->NewElement("Arc");

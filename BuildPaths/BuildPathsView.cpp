@@ -29,12 +29,8 @@ IMPLEMENT_DYNCREATE(CBuildPathsView, CView)
 
 BEGIN_MESSAGE_MAP(CBuildPathsView, CView)
 	ON_WM_CONTEXTMENU()
-	
-
 	ON_WM_LBUTTONDOWN()
-
 	ON_WM_MOUSEMOVE()
-
 	ON_COMMAND(ID_LINE2P, &CBuildPathsView::OnLine2p)
 	ON_COMMAND(ID_LINELA, &CBuildPathsView::OnLinela)
 	ON_COMMAND(ID_ARC3P, &CBuildPathsView::OnArc3p)
@@ -44,15 +40,12 @@ BEGIN_MESSAGE_MAP(CBuildPathsView, CView)
 	ON_UPDATE_COMMAND_UI(ID_ARC3P, &CBuildPathsView::OnUpdateArc3p)
 	ON_UPDATE_COMMAND_UI(ID_ARC2P, &CBuildPathsView::OnUpdateArc2p)
 	ON_COMMAND(IDS_ENTER, &CBuildPathsView::EnterData)
-
-	ON_COMMAND(ID_GDI, &CBuildPathsView::OnGdi)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение CBuildPathsView
 
 CBuildPathsView::CBuildPathsView() noexcept
 {
-
 
 }
 
@@ -78,15 +71,13 @@ void CBuildPathsView::OnDraw(CDC* pDC)
 	if (!pDoc)
 		return;
 
-	std::list<Path>& listOfPath = pDoc->GetPaths();
+	ListPath& listOfPath = pDoc->GetPaths();
 	//вызов в цикле отрисовщика
-	std::list<Path>& listOfEndPath = pDoc->GetEndPaths();
+	ListPath& listOfEndPath = pDoc->GetEndPaths();
 	for (auto& path :listOfPath)
 		path.Draw(*m_drawer);
 	for (auto& path : listOfEndPath)
 		path.Draw(*m_drawer);
-	
-	
 }
 
 
@@ -305,8 +296,3 @@ void CBuildPathsView::EnterData()
 	OnDraw(&aDC);
 }
 
-
-void CBuildPathsView::OnGdi()
-{
-	
-}

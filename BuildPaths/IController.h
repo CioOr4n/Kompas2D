@@ -1,11 +1,10 @@
 #pragma once
 #define _USE_MATH_DEFINES
 
-#include <corecrt_math_defines.h>
-
 #include "Figures.h"
 #include "BuildPathsDoc.h"
 
+#include <corecrt_math_defines.h>
 
 enum class TypeOfData { rad, length, angle,clock };
 

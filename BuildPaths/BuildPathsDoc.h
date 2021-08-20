@@ -33,8 +33,8 @@ public:
 	
 	virtual BOOL OnNewDocument();
 	Point GetEndDoc();
-	std::list<Path>& GetPaths();
-	std::list<Path>& GetEndPaths();
+	ListPath& GetPaths();
+	ListPath& GetEndPaths();
 	virtual void Serialize(CArchive& ar);
 #ifdef SHARED_HANDLERS
 	virtual void InitializeSearchContent();

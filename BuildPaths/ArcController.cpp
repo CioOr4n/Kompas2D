@@ -25,7 +25,6 @@ void ArcController::AddPoint(Point p)
 			m_bM = true;
 			return;
 		}
-
 	}
 	break;
 	case TypeElem::arc2p:
@@ -81,7 +80,7 @@ void ArcController::InputValue(TypeOfData type, int value)
 
 bool ArcController::CheckStart()
 {
-	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	ListPath& listOfPath = m_pDoc->GetPaths();
 	bool result = false;
 	// проверка на начало в области area пикселей
 	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_y - area) < area))
@@ -252,7 +251,7 @@ void ArcController::EndPoints()
 
 Path& ArcController::GetIndex()
 {
-	std::list<Path>& listOfPath = m_pDoc->GetPaths();
+	ListPath& listOfPath = m_pDoc->GetPaths();
 	for (auto& path : listOfPath)
 	{
 		Point temp = path.GetEndPath();

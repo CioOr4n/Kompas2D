@@ -1,14 +1,16 @@
 #pragma once
 #include "Path.h"
-
+using ListPath = std::list<Path>;
 class SortPath
 {
 private:
-	std::list<Path> m_endsPaths;
-	std::list<Path> m_unfinishedPaths;
+	
+	ListPath m_endsPaths;
+	ListPath m_unfinishedPaths;
 public: 
-	std::list<Path>& GetPaths();
-	std::list<Path>& GetEndPaths();
+	
+	ListPath& GetPaths();
+	ListPath& GetEndPaths();
 	void Check(Point);
 
 };

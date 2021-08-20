@@ -13,7 +13,6 @@ void LineSegment::DrawFigure(iDrawer& draw)
 }
 
 
-
 void LineSegment::ToXml(tinyxml2::XMLElement* path, tinyxml2::XMLDocument* doc)
 {
 	tinyxml2::XMLElement* line = doc->NewElement("LineSegment");

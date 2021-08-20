@@ -68,13 +68,13 @@ Point CBuildPathsDoc::GetEndDoc()
 
 
 
- std::list<Path>& CBuildPathsDoc::GetPaths()
+ListPath& CBuildPathsDoc::GetPaths()
 {
 	m_paths.Check(GetEndDoc());
 	return m_paths.GetPaths();
 }
 
- std::list<Path>& CBuildPathsDoc::GetEndPaths()
+ListPath& CBuildPathsDoc::GetEndPaths()
 {
 	return m_paths.GetEndPaths();
 }
@@ -172,7 +172,7 @@ void CBuildPathsDoc::OnFileSave()
 {
 
 	CString file;
-	std::list<Path>& paths = m_paths.GetEndPaths();
+	ListPath& paths = m_paths.GetEndPaths();
 	//Проверка на наличие путей
 	if (paths.size() == 0)
 	{

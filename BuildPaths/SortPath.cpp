@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "SortPath.h"
 
-std::list<Path>& SortPath::GetPaths()
+ListPath& SortPath::GetPaths()
 {
 	return m_unfinishedPaths;
 }
 
 
-std::list<Path>& SortPath::GetEndPaths()
+ListPath& SortPath::GetEndPaths()
 {
 	return m_endsPaths;
 }
@@ -15,7 +15,7 @@ std::list<Path>& SortPath::GetEndPaths()
 
 void SortPath::Check(Point endDoc)
 {
-	std::list<Path>::iterator it = m_unfinishedPaths.begin();
+	ListPath::iterator it = m_unfinishedPaths.begin();
 	for (auto& path : m_unfinishedPaths)
 	{
 		if (path.GetEndPath() == endDoc)

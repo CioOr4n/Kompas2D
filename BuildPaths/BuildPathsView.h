@@ -71,7 +71,7 @@ public:
 	afx_msg void OnUpdateArc2p(CCmdUI* pCmdUI);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void EnterData();
-	afx_msg void OnGdi();
+
 };
 
 #ifndef _DEBUG  // версия отладки в BuildPathsView.cpp
