@@ -82,7 +82,7 @@ void LineController::EndPoints()
 }
 
 
-Path& LineController::GetIndex()
+Path& LineController::GetIndex() 
 {
 	ListPath& listOfPath = m_pDoc->GetPaths();
 	for (auto& path : listOfPath)
@@ -123,7 +123,7 @@ void LineController::Check()
 }
 
 
-bool LineController::CheckStart()
+bool LineController::CheckStart() 
 {
 	ListPath& listOfPath = m_pDoc->GetPaths();
 	bool result = false;

@@ -19,7 +19,7 @@ public:
 	virtual void InputValue(TypeOfData, int) override;
 	virtual void AddToPath(Path&) override;
 private:
-	void Check();
+	void Check(); 
 	void Calc2p();
 	Point Calc3p();
 	void CalcClock3p();

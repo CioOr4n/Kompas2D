@@ -8,7 +8,7 @@ void Path::Add(FigurePtr path, Point end) // добавление фигуры
 }
 
 
-Point Path::GetEndPath()  // получение конца пути
+Point Path::GetEndPath() const  // получение конца пути
 {
 	return m_endPath;
 }

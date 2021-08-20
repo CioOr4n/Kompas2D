@@ -13,7 +13,7 @@ private:
 	Point m_endPath;
 public:
 	void Add(FigurePtr, Point); // добавление фигуры
-	Point GetEndPath() ; // получение конца пути
+	Point GetEndPath() const; // получение конца пути
 	void Draw(iDrawer &); // отрисовка всего пути
 	void ToXML(tinyxml2::XMLElement*, tinyxml2::XMLDocument*); // парсер в xml  
 };
