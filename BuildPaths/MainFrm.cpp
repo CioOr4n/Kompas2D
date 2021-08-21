@@ -89,7 +89,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CString strCustomize;
 	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
 	ASSERT(bNameValid);
-	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
+//	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 
 	// Разрешить операции с пользовательскими панелями инструментов:
 	InitUserToolbars(nullptr, uiFirstUserToolBarId, uiLastUserToolBarId);
