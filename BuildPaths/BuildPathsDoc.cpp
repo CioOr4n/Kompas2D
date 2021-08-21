@@ -47,18 +47,11 @@ BOOL CBuildPathsDoc::OnNewDocument()
 		return FALSE;
 	CRect rc;
 	POSITION sd = GetFirstViewPosition();
-	GetNextView(sd)->GetClientRect(&rc);
-	
-
+	GetNextView(sd)->GetClientRect(rc);
 	m_endOfDoc.m_x = rc.right - 1;
 	m_endOfDoc.m_y = rc.bottom - 1;
-
-
-
-
-	// TODO: добавьте код повторной инициализации
-	// (Документы SDI будут повторно использовать этот документ)
-
+	m_paths.GetPaths().clear();
+	m_paths.GetEndPaths().clear();
 	return TRUE;
 }
 Point CBuildPathsDoc::GetEndDoc()

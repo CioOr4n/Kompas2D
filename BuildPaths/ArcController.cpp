@@ -53,7 +53,6 @@ void ArcController::AddPoint(Point p)
 			AfxMessageBox(_T("Начинайте с начала или с конца созданного пути"));
 	}
 	Check();
-
 }
 
 
@@ -82,32 +81,32 @@ bool ArcController::CheckStart()
 {
 	ListPath& listOfPath = m_pDoc->GetPaths();
 	bool result = false;
-	// проверка на начало в области area пикселей
-	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_y - area) < area))
+	//проверка на концы путей в области area пикселей и на не закончен ли данный путь
+	for (auto& path : listOfPath)
 	{
-	 
+
+		Point temp = path.GetEndPath();
+		if ((abs(m_start.m_x - temp.m_x) < area) && (abs(m_start.m_y - temp.m_y) < area))
+		{
+			m_start = temp;
+			result = true;
+		}
+	}
+
+	// проверка на начало в области area пикселей
+	if ((abs(m_start.m_x - area) < area) && (abs(m_start.m_y - area) < area) && !result)
+	{
 		Path path;
-	
 		listOfPath.emplace_back(std::move(path));
 		m_start.m_x = 0;
 		m_start.m_y = 0;
 		result = true;
 	}
-	else
-		//проверка на концы путей в области area пикселей и на не закончен ли данный путь
-		for (auto& path : listOfPath)
-		{
-		
-			Point temp = path.GetEndPath();
-			if ((abs(m_start.m_x - temp.m_x) < area) & (abs(m_start.m_y - temp.m_y) < area) )
-			{
-				m_start = temp;
-				result =  true;
-			}
-		}
+
+	
+
 
 	return result;
-
 }
 
 
@@ -118,7 +117,6 @@ void ArcController::AddToPath(Path& path)
 	{
 		std::swap(m_start, m_end);
 		end = m_start;
-
 	}
 	m_bS = false;
 	m_bM = false;
@@ -126,7 +124,6 @@ void ArcController::AddToPath(Path& path)
 	m_bCl = false;
 	m_bR = false;
 	path.Add(std::make_unique<CArc>(m_start, m_end, m_center), end);
-
 }
 
 
@@ -136,7 +133,6 @@ void ArcController::Check()
 	if (m_bS & m_bM & m_bE)
 	{
 		EndPoints();
-
 		m_center = Calc3p();
 		CalcClock3p();
 		AddToPath(GetIndex());
@@ -145,7 +141,6 @@ void ArcController::Check()
 	if (m_bS & m_bE & m_bR & m_bCl)
 	{
 		EndPoints();
-	
 		Calc2p();
 		AddToPath(GetIndex());
 		return;
@@ -160,7 +155,7 @@ void ArcController::Calc2p() // конструктор по 2 точкам и ридиусу
 	double d = sqrt(pow(m_start.m_x - m_end.m_x, 2) + pow(m_start.m_y - m_end.m_y, 2));
 	while (m_rad < d / 2)
 	{
-		m_rad++;
+		m_rad += 0.1;
 	}
 	double h = sqrt(m_rad * m_rad - (d / 2) * (d / 2));
 
@@ -239,13 +234,9 @@ void ArcController::CalcClock3p()
 
 void ArcController::EndPoints()
 {
-
 	Point endOfDoc = m_pDoc->GetEndDoc();
 	if ((abs(m_end.m_x - endOfDoc.m_x) < area) && (abs(m_end.m_y - endOfDoc.m_y) < area))
-	{
 		m_end = endOfDoc;
-	}
-
 }
 
 

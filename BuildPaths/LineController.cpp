@@ -34,6 +34,15 @@ void LineController::CalcLine()
 {
 	m_end.m_x = m_start.m_x + cos(m_angle * M_PI / 180) * m_length;
 	m_end.m_y = m_start.m_y + sin(m_angle * M_PI / 180) * m_length;
+	Point temp = m_pDoc->GetEndDoc();
+	if (m_end.m_x < 0)
+		m_end.m_x = 0;
+	if (m_end.m_y < 0)
+		m_end.m_y = 0;
+	if (m_end.m_x > temp.m_x)
+		m_end.m_x = temp.m_x;
+	if (m_end.m_y > temp.m_y)
+		m_end.m_y = temp.m_y;
 }
 
 
@@ -54,7 +63,7 @@ void LineController::AddPoint(Point p)
 	{
 		if (m_bS)
 		{
-			AfxMessageBox(_T("Введите радиус и направление дуги"));
+			AfxMessageBox(_T("Введите длину и угол линии"));
 			return;
 		}
 	}
@@ -91,8 +100,6 @@ Path& LineController::GetIndex()
 		if (m_start == temp)
 			return path;
 	}
-	
-	
 }
 
 
@@ -127,8 +134,18 @@ bool LineController::CheckStart()
 {
 	ListPath& listOfPath = m_pDoc->GetPaths();
 	bool result = false;
+	//проверка на концы путей в области area пикселей и на не закончен ли данный путь
+	for (auto& path : listOfPath)
+	{
+		Point temp = path.GetEndPath();
+		if ((abs(m_start.m_x - temp.m_x) < area) && (abs(m_start.m_y - temp.m_y) < area))
+		{
+			m_start = temp;
+			result = true;
+		}
+	}
 	// проверка на начало в области area пикселей
-	if ((abs(m_start.m_x - area) < area) & (abs(m_start.m_y - area) < area))
+	if ((abs(m_start.m_x - area) < area) && (abs(m_start.m_y - area) < area) && !result)
 	{
 		Path path;
 		listOfPath.emplace_back(std::move(path));
@@ -136,16 +153,8 @@ bool LineController::CheckStart()
 		m_start.m_y = 0;
 		result =  true;
 	}
-	else
-		//проверка на концы путей в области area пикселей и на не закончен ли данный путь
-		for (auto& path: listOfPath)
-		{	
-			Point temp = path.GetEndPath();
-			if ((abs(m_start.m_x - temp.m_x) < area) & (abs(m_start.m_y - temp.m_y) < area) )
-			{
-				m_start = temp;
-				result = true;
-			}
-		}
+
+		
+	
 	return result;
 }
