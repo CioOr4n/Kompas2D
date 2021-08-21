@@ -9,7 +9,7 @@
 #include "Coord.h"
 
 
-enum class TypeElem {line2p, linela, arc3p,arc2p}; // перечисления для выбора фигур
+enum class TypeElem {line2p, linela, arc3p,arc2p, none}; // перечисления для выбора фигур
 
 class iFigure // интерфейс
 {

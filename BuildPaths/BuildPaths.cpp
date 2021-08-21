@@ -95,7 +95,7 @@ BOOL CBuildPathsApp::InitInstance()
 	// TODO: следует изменить эту строку на что-нибудь подходящее,
 	// например на название организации
 	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
-	LoadStdProfileSettings(4);  // Загрузите стандартные параметры INI-файла (включая MRU)
+	//LoadStdProfileSettings(4);  // Загрузите стандартные параметры INI-файла (включая MRU)
 
 
 	InitContextMenuManager();

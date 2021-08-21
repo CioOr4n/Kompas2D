@@ -46,7 +46,7 @@ END_MESSAGE_MAP()
 
 CBuildPathsView::CBuildPathsView() noexcept
 {
-
+	elemType = TypeElem::none;
 }
 
 CBuildPathsView::~CBuildPathsView()
@@ -195,6 +195,7 @@ void CBuildPathsView::OnArc3p()
 	editRad->EnableWindow(false);
 	CMFCToolBarComboBoxButton* combo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO);
 	combo->SetFlatMode(false);
+	
 
 }
 

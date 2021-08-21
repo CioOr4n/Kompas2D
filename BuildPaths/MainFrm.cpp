@@ -102,9 +102,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
 	// TODO: удалите эти пять строк, если панель инструментов и строка меню не должны быть закрепляемыми
-	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-	EnableDocking(CBRS_ALIGN_ANY);
+
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
 
@@ -115,21 +113,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
 	// Создать заголовок окна:
-	if (!CreateCaptionBar())
-	{
-		TRACE0("Не удалось создать заголовок окна\n");
-		return -1;      // не удалось создать
-	}
+	//if (!CreateCaptionBar())
+	//{
+	//	TRACE0("Не удалось создать заголовок окна\n");
+	//	return -1;      // не удалось создать
+	//}
 
-	// создать закрепляемые окна
-	if (!CreateDockingWindows())
-	{
-		TRACE0("Не удалось создать закрепляемые окна\n");
-		return -1;
-	}
 
-	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndProperties);
 
 	// установите наглядный диспетчер и стиль на основе постоянного значения
 	OnApplicationLook(theApp.m_nAppLook);
@@ -182,39 +172,20 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if( !CFrameWndEx::PreCreateWindow(cs) )
 		return FALSE;
 	cs.style = WS_OVERLAPPED | WS_SYSMENU | WS_BORDER;
-	
 
-	
+	cs.cy = ::GetSystemMetrics(SM_CYSCREEN) / 2;
+	cs.cx = ::GetSystemMetrics(SM_CXSCREEN) / 2;
 
-
-
-		// TODO: изменить класс Window или стили посредством изменения
-		//  CREATESTRUCT cs
 		return TRUE;
 }
 
 BOOL CMainFrame::CreateDockingWindows()
 {
-	BOOL bNameValid;
-	// Создать окно свойств
-	CString strPropertiesWnd;
-	bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
-	ASSERT(bNameValid);
-	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("Не удалось создать окно \"Свойства\"\n");
-		return FALSE; // не удалось создать
-	}
-
-	SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
 }
 
 void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
-	HICON hPropertiesBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_PROPERTIES_WND_HC : IDI_PROPERTIES_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
-
 }
 
 BOOL CMainFrame::CreateCaptionBar()
@@ -444,10 +415,7 @@ LRESULT CMainFrame::OnToolbarReset(WPARAM wp, LPARAM lp)
 }
 void CMainFrame::OnSelChangeClick()
 {
-	CMFCToolBarComboBoxButton* pSrcCombo = CMFCToolBarComboBoxButton::GetByCmd(IDS_COMBO, TRUE);
-	int index = m_wndComboBox->GetCurSel();
-	index = pSrcCombo->GetCurSel();
-	CString str = pSrcCombo->GetItem(index);
+
 }
 
 void CMainFrame::OnClickComboBox()
