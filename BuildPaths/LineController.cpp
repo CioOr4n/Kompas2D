@@ -145,7 +145,7 @@ bool LineController::CheckStart()
 		}
 	}
 	// проверка на начало в области area пикселей
-	if ((abs(m_start.m_x - area) < area) && (abs(m_start.m_y - area) < area) && !result)
+	if ((m_start.m_x < area) && (m_start.m_y < area) && !result)
 	{
 		Path path;
 		listOfPath.emplace_back(std::move(path));
